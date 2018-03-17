@@ -1,10 +1,10 @@
 package com.demkom58.nchat.client.gui;
 
 import com.demkom58.nchat.Main;
-import com.demkom58.nchat.client.util.DataFX;
-import com.demkom58.nchat.client.util.DataIP;
 import com.demkom58.nchat.client.network.ClientMessenger;
 import com.demkom58.nchat.client.network.ClientUser;
+import com.demkom58.nchat.client.util.DataFX;
+import com.demkom58.nchat.client.util.DataIP;
 import com.demkom58.nchat.common.network.handler.PacketEncoder;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -62,7 +62,7 @@ public class LoginController extends AbstractController {
         chatController.getMessagesView().refresh();
         DataFX.stage.setScene(DataFX.Scenes.getScene(ChatController.class));
 
-        final String ip = getIpField().getText().isEmpty() ? "5.79.70.37" : getIpField().getText();
+        final String ip = getIpField().getText().isEmpty() ? Main.STANDART_IP : getIpField().getText();
         DataIP.saveIP(ip);
         try {
             new Thread(() -> {
