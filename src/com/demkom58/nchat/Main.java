@@ -14,6 +14,7 @@ public class Main {
     public static final String APP_VERSION = "1.1 - SNAPSHOT";
 
     public static final int MAX_MESSAGE_LENGTH = 1000;
+    public static final String STANDART_IP = "localhost";
 
     public static final int CONNECTIONS_PER_IP = 3;
     public static final int MESSAGES_PER_SECOND = 3;
