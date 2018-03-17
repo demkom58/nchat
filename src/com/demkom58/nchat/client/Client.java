@@ -1,7 +1,9 @@
 package com.demkom58.nchat.client;
 
 import com.demkom58.nchat.Main;
-import com.demkom58.nchat.client.gui.*;
+import com.demkom58.nchat.client.gui.ChatController;
+import com.demkom58.nchat.client.gui.ListController;
+import com.demkom58.nchat.client.gui.LoginController;
 import com.demkom58.nchat.client.util.DataFX;
 import com.demkom58.nchat.client.util.StyleLoader;
 import javafx.animation.FadeTransition;
@@ -49,6 +51,9 @@ public class Client extends Application {
         DataFX.Scenes.addScene(LoginController.class, StyleLoader.getFXMLLoaderAndExport("login.fxml", stylesPath));
         DataFX.Scenes.addScene(ListController.class, StyleLoader.getFXMLLoaderAndExport("list.fxml", stylesPath));
         DataFX.Scenes.addScene(ChatController.class, StyleLoader.getFXMLLoaderAndExport("chat.fxml", stylesPath));
+
+        LoginController loginController = (LoginController) DataFX.Scenes.getController(LoginController.class);
+        loginController.getIpField().setText(Main.STANDART_IP);
 
         DataFX.Scenes.setAllTransparent();
         DataFX.Scenes.setAllDraggable();
