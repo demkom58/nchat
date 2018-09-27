@@ -11,12 +11,9 @@ import javafx.scene.input.MouseEvent;
 
 public class ListController extends AbstractController {
 
-    @FXML
-    private ListView ipList;
-    @FXML
-    private Label selectButton;
-    @FXML
-    private Label deleteButton;
+    @FXML private ListView ipList;
+    @FXML private Label selectButton;
+    @FXML private Label deleteButton;
 
     //Select IP button pressed.
     @FXML
@@ -33,6 +30,7 @@ public class ListController extends AbstractController {
         ipField.setText((String)getIpList().getSelectionModel().getSelectedItems().get(0));
         DataFX.stage.setScene(loginController.getScene());
     }
+
     //Remove IP button pressed.
     @FXML
     public void onRemove(MouseEvent event) {
@@ -44,10 +42,13 @@ public class ListController extends AbstractController {
     public ListView getIpList() {
         return ipList;
     }
+
     public Label getSelectButton() {
         return selectButton;
     }
+
     public Label getDeleteButton() {
         return deleteButton;
     }
+
 }

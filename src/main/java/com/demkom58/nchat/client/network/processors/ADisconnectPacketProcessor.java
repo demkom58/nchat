@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 
 public class ADisconnectPacketProcessor {
     public static void processADisconnectPacket(ADisconnectPacket packet, ClientPacketProcessor cpp) {
-        Logger logger = ClientPacketProcessor.logger;
+        final Logger logger = ClientPacketProcessor.LOGGER;
         //TODO: Switch to disconnect screen.
     }
 }
