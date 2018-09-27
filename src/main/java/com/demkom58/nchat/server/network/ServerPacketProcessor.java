@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 public class ServerPacketProcessor extends CommonPacketProcessor {
 
-    public static final Logger logger = LoggerFactory.getLogger("[SProcessor]");
+    public static final Logger LOGGER = LoggerFactory.getLogger("[SProcessor]");
 
     public ServerPacketProcessor(Channel channel) {
         super(channel);

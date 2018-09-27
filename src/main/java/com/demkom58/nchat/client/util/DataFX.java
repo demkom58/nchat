@@ -64,9 +64,7 @@ public class DataFX {
         }
 
         public static void setAllTransparent(){
-            for(Object[] objects : SCENES_MAP.values()) {
-                ((AnchorPane)objects[0]).getScene().setFill(Color.TRANSPARENT);
-            }
+            SCENES_MAP.values().forEach(objects -> ((AnchorPane)objects[0]).getScene().setFill(Color.TRANSPARENT));
         }
 
         public static AnchorPane getAnchorPane(Class controller){
