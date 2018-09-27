@@ -1,3 +1,0 @@
-Manifest-Version: 1.0
-Created-By: demkom58
-Main-Class: com.demkom58.nchat.Main
