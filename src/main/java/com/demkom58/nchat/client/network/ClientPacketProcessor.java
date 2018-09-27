@@ -12,7 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ClientPacketProcessor extends CommonPacketProcessor {
-    public static final Logger logger = LoggerFactory.getLogger("[CProcessor]");
+    public static final Logger LOGGER = LoggerFactory.getLogger("[CProcessor]");
 
     public ClientPacketProcessor(Channel channel) {
         super(channel);
@@ -32,4 +32,5 @@ public class ClientPacketProcessor extends CommonPacketProcessor {
     public void processADisconnectPacket(ADisconnectPacket packet) {
         ADisconnectPacketProcessor.processADisconnectPacket(packet, this);
     }
+
 }

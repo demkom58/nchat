@@ -15,14 +15,10 @@ import javafx.scene.input.MouseEvent;
 
 public class ChatController extends AbstractController {
 
-    @FXML
-    private ListView<String> messagesView;
-    @FXML
-    private Label sendButton;
-    @FXML
-    private Label backButton;
-    @FXML
-    private TextArea messageArea;
+    @FXML private ListView<String> messagesView;
+    @FXML private Label sendButton;
+    @FXML private Label backButton;
+    @FXML private TextArea messageArea;
 
     //Return on Login page.
     @FXML
@@ -31,11 +27,13 @@ public class ChatController extends AbstractController {
         ClientMessenger.close();
         DataFX.stage.setScene(DataFX.Scenes.getScene(LoginController.class));
     }
+
     //On Send button pressed.
     @FXML
     public void onSend(MouseEvent event){
         sendMessage();
     }
+
     //On Enter pressed (Send & New line).
     @FXML
     public void onKeyPressed(KeyEvent event) {
@@ -56,6 +54,7 @@ public class ChatController extends AbstractController {
             getMessageArea().positionCaret(pos + 1);
         }
     }
+
     //Message length limitation
     @FXML
     public void onKeyTyped(KeyEvent event) {
@@ -69,6 +68,7 @@ public class ChatController extends AbstractController {
             getMessageArea().positionCaret(pos);
         });
     }
+
     //Check message & send message to server.
     private void sendMessage() {
         String message = getMessageArea().getText();
@@ -81,12 +81,15 @@ public class ChatController extends AbstractController {
     public ListView getMessagesView() {
         return messagesView;
     }
+
     public Label getSendButton() {
         return sendButton;
     }
+
     public Label getBackButton() {
         return backButton;
     }
+
     public TextArea getMessageArea() {
         return messageArea;
     }

@@ -15,11 +15,11 @@ import java.util.Scanner;
 
 public class DataIP {
 
-    private static String srvs = Main.DATA_PATH + "srv.list";
+    private static final String SRVS = Main.DATA_PATH + "srv.list";
 
     public static void saveIP(String ip) {
         try {
-            File file = new File(srvs);
+            File file = new File(SRVS);
             createFileIfNotExist(file);
 
             List<String> ips = Files.readAllLines(Paths.get(file.getPath()), StandardCharsets.UTF_8);
@@ -40,10 +40,10 @@ public class DataIP {
 
     public static void saveIPList(List<String> ips) {
         try {
-            File file = new File(srvs);
+            File file = new File(SRVS);
 
             createFileIfNotExist(file);
-            FileWriter writer = new FileWriter(srvs);
+            FileWriter writer = new FileWriter(SRVS);
             for (String str : ips) writer.write(str + "\n");
             writer.close();
 
@@ -52,7 +52,7 @@ public class DataIP {
 
     public static List<String> loadIPList() {
         try {
-            File file = new File(srvs);
+            File file = new File(SRVS);
             createFileIfNotExist(file);
 
             List<String> ips = new ArrayList<>();

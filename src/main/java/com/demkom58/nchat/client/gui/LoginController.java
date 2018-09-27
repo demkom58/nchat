@@ -16,14 +16,10 @@ import javafx.scene.input.MouseEvent;
 
 public class LoginController extends AbstractController {
 
-    @FXML
-    private TextField ipField;
-    @FXML
-    private TextField loginField;
-    @FXML
-    private Label joinButton;
-    @FXML
-    private Label listButton;
+    @FXML private TextField ipField;
+    @FXML private TextField loginField;
+    @FXML private Label joinButton;
+    @FXML private Label listButton;
 
     //IP list button pressed.
     @FXML
@@ -53,7 +49,8 @@ public class LoginController extends AbstractController {
         String voidName = nick.replaceAll(" ", "");
         String fs = PacketEncoder.getFrameSymbol();
 
-        if(nick.contains(fs)) loginField.setText(nick.replaceAll(fs, ""));
+        if(nick.contains(fs))
+            loginField.setText(nick.replaceAll(fs, ""));
         if(nick.length() == 0 || nick.length() > 16 || voidName.length() == 0) return;
 
         ClientUser.setName(nick);
@@ -79,13 +76,17 @@ public class LoginController extends AbstractController {
     public Label getListButton() {
         return listButton;
     }
+
     public Label getJoinButton() {
         return joinButton;
     }
+
     public TextField getLoginField() {
         return loginField;
     }
+
     public TextField getIpField() {
         return ipField;
     }
+
 }
