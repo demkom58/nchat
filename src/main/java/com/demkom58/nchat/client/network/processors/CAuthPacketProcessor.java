@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 
 public class CAuthPacketProcessor {
     public static void processCAuthPacket(CAuthPacket packet, ClientPacketProcessor cpp) {
-        Logger logger = ClientPacketProcessor.logger;
+        final Logger logger = ClientPacketProcessor.LOGGER;
 
         logger.info("Process " + packet.getClass().getSimpleName() + ".");
         throw new UnsupportedOperationException("Not supported");

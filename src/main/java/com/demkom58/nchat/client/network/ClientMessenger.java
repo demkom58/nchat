@@ -83,6 +83,7 @@ public class ClientMessenger {
     public static Channel getChannel() {
         return channel;
     }
+
     public IPacketRegistry getPacketRegistry() {
         return packetRegistry;
     }
@@ -93,9 +94,9 @@ public class ClientMessenger {
 
     public ChannelFuture sendPacket(Packet packet) {
         if(channel == null) return null;
-        ChannelFuture cf = getChannel().writeAndFlush(packet);
-        return cf;
+        return getChannel().writeAndFlush(packet);
     }
+
     public void sendMessage(String message) {
         messagesQueue.offer(message);
     }
@@ -103,6 +104,7 @@ public class ClientMessenger {
     public int getServerPort() {
         return port;
     }
+
     public String getServerHost() {
         return host;
     }

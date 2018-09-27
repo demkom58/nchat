@@ -18,8 +18,7 @@ import java.io.File;
 import java.util.List;
 
 public class Client extends Application {
-
-    private static Logger logger = LoggerFactory.getLogger("[Client]");
+    private static final Logger LOGGER = LoggerFactory.getLogger("[Client]");
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -65,6 +64,6 @@ public class Client extends Application {
     }
 
     public static Logger getLogger() {
-        return logger;
+        return LOGGER;
     }
 }

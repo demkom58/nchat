@@ -32,9 +32,11 @@ public abstract class AbstractController {
     public Scene getScene() {
         return scene;
     }
+
     public Label getClose() {
         return close;
     }
+
     public Label getHelloLabel() {
         return helloLabel;
     }

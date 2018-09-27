@@ -34,6 +34,7 @@ public class Server {
         if(Server.server != null) return;
         Server.server = new Server(Main.PORT);
     }
+
     private static Server server;
 
     private static final Logger logger = LoggerFactory.getLogger("[SERVER]");

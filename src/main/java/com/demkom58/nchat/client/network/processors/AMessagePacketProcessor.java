@@ -13,7 +13,7 @@ import java.util.Objects;
 
 public class AMessagePacketProcessor {
     public static void processAMessagePacket(AMessagePacket packet, ClientPacketProcessor cpp) {
-        Logger logger = ClientPacketProcessor.logger;
+        final Logger logger = ClientPacketProcessor.LOGGER;
 
         String msg = packet.getMessage();
 
@@ -25,6 +25,7 @@ public class AMessagePacketProcessor {
                     .filter(br -> Objects.equals(Orientation.VERTICAL, ((ScrollBar) br).getOrientation()))
                     .findFirst().ifPresent(br -> br.visibleProperty().addListener((observable, oldValue, newValue) -> chatController.getMessagesView().scrollTo(newValue ? Integer.MAX_VALUE : 0)));
         });
-        System.out.println(msg);
+
+        logger.info(msg);
     }
 }
