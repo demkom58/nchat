@@ -11,7 +11,7 @@ import org.slf4j.Logger;
 public class ADisconnectPacketProcessor {
 
     public static void processADisconnectPacket(ADisconnectPacket packet, ServerPacketProcessor spp) {
-        Logger logger = ServerPacketProcessor.logger;
+        Logger logger = ServerPacketProcessor.LOGGER;
         Channel channel = spp.getChannel();
 
         Server server = Server.getServer();

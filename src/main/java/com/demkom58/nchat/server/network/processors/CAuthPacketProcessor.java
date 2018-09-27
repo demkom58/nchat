@@ -12,13 +12,11 @@ import java.util.Collection;
 
 public class CAuthPacketProcessor {
     public static void processCAuthPacket(CAuthPacket packet, ServerPacketProcessor spp) {
-        Logger logger = ServerPacketProcessor.logger;
-        Channel channel = spp.getChannel();
+        final Logger logger = ServerPacketProcessor.LOGGER;
+        final Channel channel = spp.getChannel();
+        final Server server = Server.getServer();
 
-        Server server = Server.getServer();
-        Collection<User> users = server.getUsers();
         Collection<Channel> regChannels = server.getRegisteredChannels();
-
         if (regChannels.contains(channel)) {
             server.kickUser(channel, "Already registered.");
             return;
@@ -29,8 +27,7 @@ public class CAuthPacketProcessor {
         protocol_version = packet.getProtocolVersion();
         nick = packet.getNick();
 
-        User localUser = new User(channel, nick);
-
+        final User localUser = new User(channel, nick);
         if (!protocol_version.equals(Main.PROTOCOL_VERSION)) {
             localUser.sendMessage("Server protocol version and client protocol version are different.\r\n");
             localUser.sendMessage("Your protocol version: " + protocol_version + ". Server protocol version: " + Main.PROTOCOL_VERSION + "\r\n");
@@ -39,6 +36,7 @@ public class CAuthPacketProcessor {
             return;
         }
 
+        Collection<User> users = server.getUsers();
         for (User cUser : users) if (cUser.getNick().equals(nick)) {
             User.sendMessage(channel, "This nickname is already taken.");
             User.sendMessage(channel, "You was kicked.");

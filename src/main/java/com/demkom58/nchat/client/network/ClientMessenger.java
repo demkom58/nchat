@@ -27,7 +27,7 @@ public class ClientMessenger {
 
     private static boolean work;
     private static LinkedBlockingQueue<String> messagesQueue = new LinkedBlockingQueue<>();
-    private static final Logger logger = LoggerFactory.getLogger("[CLIENT]");
+    private static final Logger LOGGER = LoggerFactory.getLogger("[CLIENT]");
 
     private static Channel channel;
     private IPacketRegistry packetRegistry;
@@ -110,6 +110,6 @@ public class ClientMessenger {
     }
 
     public static Logger getLogger() {
-        return logger;
+        return LOGGER;
     }
 }

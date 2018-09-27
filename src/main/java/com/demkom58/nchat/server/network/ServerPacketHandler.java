@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Collection;
 
 public class ServerPacketHandler extends PacketHandler {
-    private static final Logger logger = LoggerFactory.getLogger("[SHandler]");
+    private static final Logger LOGGER = LoggerFactory.getLogger("[SHandler]");
 
     public ServerPacketHandler(IPacketHandlerRegistry packetProcessorRegistry) {
         super(packetProcessorRegistry);
@@ -53,7 +53,7 @@ public class ServerPacketHandler extends PacketHandler {
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         Channel channel = ctx.channel();
         String reason = "Connection["+ NetworkUtil.getAddress(channel)+"] Exception caught: " + cause.getMessage();
-        logger.warn(reason);
+        LOGGER.warn(reason);
         handlerRemoved(ctx);
     }
 

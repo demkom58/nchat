@@ -33,13 +33,13 @@ public class PacketHandlerRegistry implements IPacketHandlerRegistry {
     }
     
     private IPacketProcessor findPacketProcessorForPacket(IPacket packet) {
-        Type type = TypeResolver.resolveRawArgument(IPacket.class, packet.getClass());
-        
+        final Type type = TypeResolver.resolveRawArgument(IPacket.class, packet.getClass());
+
         for(IPacketProcessor packetProcessor : packetProcessors) {
-            if(((Class)type).isAssignableFrom(packetProcessor.getClass())) {
+            if(((Class)type).isAssignableFrom(packetProcessor.getClass()))
                 return packetProcessor;
-            }
         }
+
         throw new IllegalArgumentException("Unable to find PacketProcessor for " + packet.getClass().getName());
     }
 }

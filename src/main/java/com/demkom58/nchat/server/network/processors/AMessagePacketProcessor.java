@@ -14,7 +14,7 @@ import java.util.Collection;
 public class AMessagePacketProcessor {
 
     public static void processAMessagePacket(AMessagePacket packet, ServerPacketProcessor spp) {
-        Logger logger = ServerPacketProcessor.logger;
+        Logger logger = ServerPacketProcessor.LOGGER;
         Channel channel = spp.getChannel();
 
         Server server = Server.getServer();
