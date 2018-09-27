@@ -40,15 +40,13 @@ public class Client extends Application {
     }
 
     private void initialize() throws Exception {
-        String stylesPath = Main.DATA_PATH + "styles/";
-
-        File[] files = new File(stylesPath).listFiles();
+        File[] files = new File(Main.STYLES_PATH).listFiles();
         if(!StyleLoader.checkStyleVersion() && files != null) for(File file : files) file.delete();
 
-        StyleLoader.exportFile("/css/style.css", stylesPath);
-        DataFX.Scenes.addScene(LoginController.class, StyleLoader.getFXMLLoaderAndExport("/login.fxml", stylesPath));
-        DataFX.Scenes.addScene(ListController.class, StyleLoader.getFXMLLoaderAndExport("/list.fxml", stylesPath));
-        DataFX.Scenes.addScene(ChatController.class, StyleLoader.getFXMLLoaderAndExport("/chat.fxml", stylesPath));
+        StyleLoader.exportFile("/css/style.css", Main.STYLES_PATH);
+        DataFX.Scenes.addScene(LoginController.class, StyleLoader.getFXMLLoaderAndExport("/login.fxml", Main.STYLES_PATH));
+        DataFX.Scenes.addScene(ListController.class, StyleLoader.getFXMLLoaderAndExport("/list.fxml", Main.STYLES_PATH));
+        DataFX.Scenes.addScene(ChatController.class, StyleLoader.getFXMLLoaderAndExport("/chat.fxml", Main.STYLES_PATH));
 
         LoginController loginController = (LoginController) DataFX.Scenes.getController(LoginController.class);
         loginController.getIpField().setText(Main.STANDART_IP);
@@ -59,10 +57,12 @@ public class Client extends Application {
 
 
     public static void start(List<String> args) {
-        launch((String[])args.toArray());
+        launch(args.toArray(new String[0]));
+        getLogger().info("NChat v"+Main.APP_VERSION+" is launching.");
     }
 
     public static Logger getLogger() {
         return LOGGER;
     }
+
 }

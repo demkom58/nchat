@@ -19,6 +19,7 @@ public class Main {
     public static final int CONNECTIONS_PER_IP = 3;
     public static final int MESSAGES_PER_SECOND = 3;
     public static final String DATA_PATH = System.getenv("APPDATA") + "/NChat/";
+    public static final String STYLES_PATH = DATA_PATH + "styles/";
 
     public static void main(String[] as) throws Exception {
         List<String> args = Arrays.asList(as);
