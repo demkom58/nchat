@@ -37,7 +37,7 @@ public class Server {
 
     private static Server server;
 
-    private static final Logger logger = LoggerFactory.getLogger("[SERVER]");
+    private static final Logger LOGGER = LoggerFactory.getLogger("[SERVER]");
 
     private final static ChannelGroup channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
     private final static Map<Channel, User> regMap = new WeakHashMap<>();
@@ -91,24 +91,24 @@ public class Server {
     }
 
     public void kickUser(User user, String reason) {
-        Channel channel = user.getChannel();
+       final Channel channel = user.getChannel();
+
         channel.writeAndFlush(new ADisconnectPacket().setReason(reason));
-        String nick = user.getNick();
-        String address = user.getAddress();
-        System.out.println("ClientUser " + nick + "[" + address + "]" + " disconnected. Reason: " + reason);
+        LOGGER.info("ClientUser " + user.getNick() + "[" + user.getAddress() + "]" + " disconnected. Reason: " + reason);
+
         user.sendPacket(new ADisconnectPacket().setReason(reason));
         removeUser(channel);
     }
     public void kickUser(Channel channel, String reason) {
-        User user = getUser(channel);
+        final User user = getUser(channel);
         if(user != null) {
             kickUser(user, reason);
             return;
         }
 
         channel.writeAndFlush(new ADisconnectPacket().setReason(reason));
-        String address = NetworkUtil.getAddress(channel);
-        System.out.println("Guest[" + address + "]" + " disconnected. Reason: " + reason);
+        LOGGER.info("Guest[" + NetworkUtil.getAddress(channel) + "]" + " disconnected. Reason: " + reason);
+
         User.sendPacket(channel, new ADisconnectPacket().setReason(reason));
         removeUser(channel);
     }
@@ -119,8 +119,8 @@ public class Server {
     }
 
     public void broadcast(String message) {
-        String rMessage = message + "\r\n";
-        for(Channel channel : getRegisteredChannels()) channel.writeAndFlush(rMessage);
+        final String rMessage = message + "\r\n";
+        getRegisteredChannels().forEach(channel -> channel.writeAndFlush(rMessage));
     }
 
     public void shutdown(String reason) {
@@ -133,7 +133,7 @@ public class Server {
     }
 
     public Logger getLogger() {
-        return logger;
+        return LOGGER;
     }
     public static Server getServer() {
         return Server.server;

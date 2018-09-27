@@ -40,7 +40,6 @@ public class Client extends Application {
     }
 
     private void initialize() throws Exception {
-
         String stylesPath = Main.DATA_PATH + "styles/";
 
         File[] files = new File(stylesPath).listFiles();
