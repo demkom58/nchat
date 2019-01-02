@@ -27,7 +27,7 @@ public class ADisconnectPacketProcessor {
             User user = server.getUser(channel);
             server.broadcast("[Server] " + user.getNick() + " has left!");
             server.removeUser(channel);
-            log = "ClientUser " + user.getNick() + address + " has left server.";
+            log = "User " + user.getNick() + address + " has left server.";
         }
         log += " Reason: " + reason;
         logger.info(log);
