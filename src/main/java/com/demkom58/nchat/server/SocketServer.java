@@ -26,32 +26,32 @@ public abstract class SocketServer {
         final boolean epoll = Epoll.isAvailable();
         final boolean kQueue = KQueue.isAvailable();
 
-        bossGroup = epoll ? new EpollEventLoopGroup() : kQueue
+        this.bossGroup = epoll ? new EpollEventLoopGroup() : kQueue
                 ? new KQueueEventLoopGroup() : new NioEventLoopGroup();
 
-        workerGroup = epoll ? new EpollEventLoopGroup() : kQueue
+        this.workerGroup = epoll ? new EpollEventLoopGroup() : kQueue
                 ? new KQueueEventLoopGroup() : new NioEventLoopGroup();
 
-        bootstrap = new ServerBootstrap()
+        this.bootstrap = new ServerBootstrap()
                 .group(bossGroup, workerGroup)
                 .channel(NioServerSocketChannel.class)
 
-//                .handler(new LoggingHandler(LogLevel.INFO))
+                //.handler(new LoggingHandler(LogLevel.INFO))
                 .childHandler(new ServerInitializer())
 
                 .option(ChannelOption.SO_BACKLOG, 128)
                 .childOption(ChannelOption.SO_KEEPALIVE, true);
     }
 
-    public void bind(InetSocketAddress address) {
+    protected void bind(InetSocketAddress address) {
         try {
-            bootstrap.bind(address).sync().channel().closeFuture().sync();
+            this.bootstrap.bind(address).sync().channel().closeFuture().sync();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
 
-    public void shutdown() {
+    protected void shutdown() {
         this.bossGroup.shutdownGracefully();
         this.workerGroup.shutdownGracefully();
 
