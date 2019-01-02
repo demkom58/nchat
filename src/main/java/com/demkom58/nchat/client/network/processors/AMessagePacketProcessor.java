@@ -14,8 +14,7 @@ import java.util.Objects;
 public class AMessagePacketProcessor {
     public static void processAMessagePacket(AMessagePacket packet, ClientPacketProcessor cpp) {
         final Logger logger = ClientPacketProcessor.LOGGER;
-
-        String msg = packet.getMessage();
+        final String msg = packet.getMessage();
 
         ChatController chatController = (ChatController) DataFX.Scenes.getController(ChatController.class);
         Platform.runLater(() -> {

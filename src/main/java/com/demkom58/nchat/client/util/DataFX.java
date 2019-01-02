@@ -81,7 +81,7 @@ public class DataFX {
     public static void close() {
         if(ClientMessenger.getChannel() != null) {
             try {
-                ClientMessenger.getClientMessenger().sendPacket(new ADisconnectPacket().setReason("Closed chat."));
+                ClientMessenger.getClientMessenger().sendPacket(new ADisconnectPacket("Closed chat."));
                 Thread.sleep(1000);
                 ClientMessenger.close();
             } catch (Exception e) { e.printStackTrace(); }

@@ -29,9 +29,8 @@ public class CAuthPacketProcessor {
 
         final User localUser = new User(channel, nick);
         if (!protocol_version.equals(Main.PROTOCOL_VERSION)) {
-            localUser.sendMessage("Server protocol version and client protocol version are different.\r\n");
-            localUser.sendMessage("Your protocol version: " + protocol_version + ". Server protocol version: " + Main.PROTOCOL_VERSION + "\r\n");
-            localUser.sendMessage("You was kicked.\r\n");
+            localUser.sendMessage("Server protocol version and client protocol version are different.");
+            localUser.sendMessage("Your protocol version: " + protocol_version + ". Server protocol version: " + Main.PROTOCOL_VERSION);
             localUser.kick("Different protocol versions. ClientMessenger version: " + protocol_version + ".");
             return;
         }

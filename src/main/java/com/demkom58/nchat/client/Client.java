@@ -43,13 +43,13 @@ public class Client extends Application {
         File[] files = new File(Main.STYLES_PATH).listFiles();
         if(!StyleLoader.checkStyleVersion() && files != null) for(File file : files) file.delete();
 
-        StyleLoader.exportFile("/css/style.css", Main.STYLES_PATH);
-        DataFX.Scenes.addScene(LoginController.class, StyleLoader.getFXMLLoaderAndExport("/login.fxml", Main.STYLES_PATH));
-        DataFX.Scenes.addScene(ListController.class, StyleLoader.getFXMLLoaderAndExport("/list.fxml", Main.STYLES_PATH));
-        DataFX.Scenes.addScene(ChatController.class, StyleLoader.getFXMLLoaderAndExport("/chat.fxml", Main.STYLES_PATH));
+        StyleLoader.exportFile("/assets/css/style.css", Main.STYLES_PATH);
+        DataFX.Scenes.addScene(LoginController.class, StyleLoader.getFXMLLoaderAndExport("/assets/login.fxml", Main.STYLES_PATH));
+        DataFX.Scenes.addScene(ListController.class, StyleLoader.getFXMLLoaderAndExport("/assets/list.fxml", Main.STYLES_PATH));
+        DataFX.Scenes.addScene(ChatController.class, StyleLoader.getFXMLLoaderAndExport("/assets/chat.fxml", Main.STYLES_PATH));
 
         LoginController loginController = (LoginController) DataFX.Scenes.getController(LoginController.class);
-        loginController.getIpField().setText(Main.STANDART_IP);
+        loginController.getIpField().setText(Main.STANDARD_IP);
 
         DataFX.Scenes.setAllTransparent();
         DataFX.Scenes.setAllDraggable();

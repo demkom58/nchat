@@ -61,7 +61,7 @@ public class LoginController extends AbstractController {
         chatController.getMessagesView().refresh();
         DataFX.stage.setScene(DataFX.Scenes.getScene(ChatController.class));
 
-        final String ip = getIpField().getText().isEmpty() ? Main.STANDART_IP : getIpField().getText();
+        final String ip = getIpField().getText().isEmpty() ? Main.STANDARD_IP : getIpField().getText();
         DataIP.saveIP(ip);
         try {
             new Thread(() -> {

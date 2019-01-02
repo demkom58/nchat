@@ -23,7 +23,7 @@ public class ChatController extends AbstractController {
     //Return on Login page.
     @FXML
     public void onBack(MouseEvent event){
-        ClientMessenger.getClientMessenger().sendPacket(new ADisconnectPacket().setReason("Returned in main menu."));
+        ClientMessenger.getClientMessenger().sendPacket(new ADisconnectPacket("Returned in main menu."));
         ClientMessenger.close();
         DataFX.stage.setScene(DataFX.Scenes.getScene(LoginController.class));
     }

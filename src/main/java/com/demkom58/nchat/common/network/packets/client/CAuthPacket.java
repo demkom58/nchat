@@ -1,35 +1,38 @@
 package com.demkom58.nchat.common.network.packets.client;
 
+import com.demkom58.nchat.Main;
 import com.demkom58.nchat.common.network.packets.CommonPacketProcessor;
 import com.demkom58.nchat.common.network.packets.Packet;
 import io.netty.buffer.ByteBuf;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.jetbrains.annotations.NotNull;
 
 import java.nio.charset.StandardCharsets;
 
+@Data
+@EqualsAndHashCode(callSuper = true)
 public class CAuthPacket extends Packet<CommonPacketProcessor> {
 
-    private String nick;
-    private String protocolVersion;
+    private final short id = 0;
+    @NotNull private String nick = "Unknown";
+    @NotNull private String protocolVersion = Main.PROTOCOL_VERSION;
 
-    public String getNick() {
-        return nick;
+    public CAuthPacket() {}
+
+    public CAuthPacket(@NotNull String nick, @NotNull String protocolVersion) {
+        this.nick = nick;
+        this.protocolVersion = protocolVersion;
     }
-    public CAuthPacket setNick(String nick) {
+
+    public CAuthPacket setNick(@NotNull String nick) {
         this.nick = nick;
         return this;
     }
 
-    public String getProtocolVersion() {
-        return protocolVersion;
-    }
-    public CAuthPacket setProtocolVersion(String protocolVersion) {
+    public CAuthPacket setProtocolVersion(@NotNull String protocolVersion) {
         this.protocolVersion = protocolVersion;
         return this;
-    }
-
-    @Override
-    public short getId() {
-        return 0;
     }
 
     @Override
@@ -53,4 +56,5 @@ public class CAuthPacket extends Packet<CommonPacketProcessor> {
     public void processPacket(CommonPacketProcessor packetProcessor) {
         packetProcessor.processCAuthPacket(this);
     }
+
 }
