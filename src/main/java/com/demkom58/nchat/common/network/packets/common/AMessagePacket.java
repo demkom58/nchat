@@ -3,30 +3,33 @@ package com.demkom58.nchat.common.network.packets.common;
 import com.demkom58.nchat.common.network.packets.CommonPacketProcessor;
 import com.demkom58.nchat.common.network.packets.Packet;
 import io.netty.buffer.ByteBuf;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.jetbrains.annotations.NotNull;
 
 import java.nio.charset.StandardCharsets;
 
+@Data
+@EqualsAndHashCode(callSuper = true)
 public class AMessagePacket extends Packet<CommonPacketProcessor> {
 
-    private String message;
+    private final short id = 1;
+    @NotNull private String message = "";
 
-    @Override
-    public short getId() {
-        return 1;
+    public AMessagePacket() {}
+
+    public AMessagePacket(@NotNull String message) {
+        this.message = message;
+    }
+
+    public AMessagePacket setMessage(@NotNull String message) {
+        this.message = message;
+        return this;
     }
 
     @Override
     public int getPayloadSize() {
         return getMessage().getBytes(StandardCharsets.UTF_8).length;
-    }
-
-    public AMessagePacket setMessage(String message) {
-        this.message = message;
-        return this;
-    }
-
-    public String getMessage() {
-        return message;
     }
 
     @Override
@@ -43,4 +46,5 @@ public class AMessagePacket extends Packet<CommonPacketProcessor> {
     public void processPacket(CommonPacketProcessor packetProcessor) {
         packetProcessor.processAMessagePacket(this);
     }
+
 }
