@@ -22,36 +22,33 @@ import java.util.Map;
 import java.util.WeakHashMap;
 
 public class Server extends SocketServer {
-
     private static Server server;
 
     private static final Logger LOGGER = LoggerFactory.getLogger("[SERVER]");
 
-    private final static ChannelGroup channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
-    private final static Map<Channel, User> regMap = new WeakHashMap<>();
-
-    private IPacketRegistry packetRegistry;
+    private static final ChannelGroup channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
+    private static final Map<Channel, User> regMap = new WeakHashMap<>();
 
     private final String host;
     private final int port;
 
+    private IPacketRegistry packetRegistry;
+
     private Server(String host, int port) throws Exception {
         super();
-
-        Server.server = this;
 
         this.host = host;
         this.port = port;
 
-        run();
-    }
-
-    private void run() {
-        getLogger().info("Starting server...");
         this.packetRegistry = new PacketRegistry();
+
         this.packetRegistry.registerPacket(CAuthPacket.class);
         this.packetRegistry.registerPacket(AMessagePacket.class);
         this.packetRegistry.registerPacket(ADisconnectPacket.class);
+    }
+
+    public void start() {
+        getLogger().info("Starting server...");
 
         try {
             getLogger().info("Waiting for connections...");
@@ -116,14 +113,6 @@ public class Server extends SocketServer {
         stop("Server has been disabled.");
     }
 
-    public Logger getLogger() {
-        return LOGGER;
-    }
-
-    public static Server getServer() {
-        return Server.server;
-    }
-
     public IPacketRegistry getPacketRegistry() {
         return packetRegistry;
     }
@@ -144,9 +133,20 @@ public class Server extends SocketServer {
         return regMap;
     }
 
+    public static Server getServer() {
+        return Server.server;
+    }
+
+    public static Logger getLogger() {
+        return LOGGER;
+    }
+
     public static synchronized void start(List<String> args) throws Exception {
-        if(Server.server != null) return;
-        Server.server = new Server(Main.HOST, Main.PORT);
+        if(server != null)
+            return;
+
+        server = new Server(Main.HOST, Main.PORT);
+        server.start();
     }
 
 }
