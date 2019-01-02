@@ -49,7 +49,9 @@ public class AMessagePacketProcessor {
             return;
         }
 
+        String toSend = message.replaceAll("(\\s)\\1","$1").replaceAll("\\s+"," ");
+
         for (User user : users) user.sendMessage("[" + eventUser.getNick() + "] " + message);
-        logger.info("[" + eventUser.getAddress() + "] [" + eventUser.getNick() + "] " + message.replaceAll("\n", "[NL]"));
+        logger.info("[" + eventUser.getAddress() + "] [" + eventUser.getNick() + "] " + message);
     }
 }

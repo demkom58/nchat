@@ -21,8 +21,9 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class ClientMessenger {
     private static ClientMessenger clientMessenger;
+
     public static void prepare() {
-        if(ClientMessenger.clientMessenger == null) ClientMessenger.clientMessenger = new ClientMessenger();
+        if (ClientMessenger.clientMessenger == null) ClientMessenger.clientMessenger = new ClientMessenger();
     }
 
     private static boolean work;
@@ -61,19 +62,18 @@ public class ClientMessenger {
             register();
 
             while (work) {
-                String message = messagesQueue.take();
-                message = message.replaceAll("╥", "");
-                channelFuture = sendPacket(new AMessagePacket().setMessage(message));
+                String message = messagesQueue.take().replaceAll("╥", "");
+                channelFuture = sendPacket(new AMessagePacket(message));
                 ClientUser.addSentMessage();
             }
-            if(channelFuture != null) channelFuture.sync();
+            if (channelFuture != null) channelFuture.sync();
         } finally {
             group.shutdownGracefully();
         }
     }
 
     private void register() {
-        sendPacket(new CAuthPacket().setProtocolVersion(Main.PROTOCOL_VERSION).setNick(ClientUser.getName()));
+        sendPacket(new CAuthPacket(ClientUser.getName(), Main.PROTOCOL_VERSION));
     }
 
     public static ClientMessenger getClientMessenger() {
@@ -93,7 +93,7 @@ public class ClientMessenger {
     }
 
     public ChannelFuture sendPacket(Packet packet) {
-        if(channel == null) return null;
+        if (channel == null) return null;
         return getChannel().writeAndFlush(packet);
     }
 
@@ -112,4 +112,5 @@ public class ClientMessenger {
     public static Logger getLogger() {
         return LOGGER;
     }
+
 }

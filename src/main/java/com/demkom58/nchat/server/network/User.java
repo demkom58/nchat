@@ -61,7 +61,7 @@ public class User {
     }
 
     public static void sendMessage(Channel channel, String message) {
-        channel.writeAndFlush(new AMessagePacket().setMessage(message));
+        channel.writeAndFlush(new AMessagePacket(message));
     }
     public static void sendPacket(Channel channel, IPacket packet) {
         channel.writeAndFlush(packet);

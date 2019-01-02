@@ -17,8 +17,6 @@ import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.logging.LogLevel;
-import io.netty.handler.logging.LoggingHandler;
 import io.netty.util.concurrent.GlobalEventExecutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -70,7 +68,7 @@ public class Server {
                     .group(bossGroup, workersGroup)
                     .channel(NioServerSocketChannel.class)
 
-                    .handler(new LoggingHandler(LogLevel.INFO)) //DEBUG LOGGER
+                    //.handler(new LoggingHandler(LogLevel.INFO))
                     .childHandler(new ServerInitializer())
 
                     .option(ChannelOption.SO_BACKLOG, 128)
@@ -92,11 +90,12 @@ public class Server {
 
     public void kickUser(User user, String reason) {
        final Channel channel = user.getChannel();
+       final ADisconnectPacket packet = new ADisconnectPacket(reason);
 
-        channel.writeAndFlush(new ADisconnectPacket().setReason(reason));
+        channel.writeAndFlush(packet);
         LOGGER.info("ClientUser " + user.getNick() + "[" + user.getAddress() + "]" + " disconnected. Reason: " + reason);
 
-        user.sendPacket(new ADisconnectPacket().setReason(reason));
+        user.sendPacket(packet);
         removeUser(channel);
     }
     public void kickUser(Channel channel, String reason) {
@@ -105,11 +104,12 @@ public class Server {
             kickUser(user, reason);
             return;
         }
+        final ADisconnectPacket packet = new ADisconnectPacket(reason);
 
-        channel.writeAndFlush(new ADisconnectPacket().setReason(reason));
+        channel.writeAndFlush(packet);
         LOGGER.info("Guest[" + NetworkUtil.getAddress(channel) + "]" + " disconnected. Reason: " + reason);
 
-        User.sendPacket(channel, new ADisconnectPacket().setReason(reason));
+        User.sendPacket(channel, packet);
         removeUser(channel);
     }
     public void removeUser(Channel channel) {
@@ -119,7 +119,7 @@ public class Server {
     }
 
     public void broadcast(String message) {
-        final String rMessage = message + "\r\n";
+        final String rMessage = message + "\n";
         getRegisteredChannels().forEach(channel -> channel.writeAndFlush(rMessage));
     }
 
@@ -128,6 +128,7 @@ public class Server {
         this.bossGroup.shutdownGracefully();
         this.workersGroup.shutdownGracefully();
     }
+
     public void shutdown() {
         shutdown("Server has been disabled.");
     }
@@ -135,6 +136,7 @@ public class Server {
     public Logger getLogger() {
         return LOGGER;
     }
+
     public static Server getServer() {
         return Server.server;
     }
@@ -142,18 +144,21 @@ public class Server {
     public IPacketRegistry getPacketRegistry() {
         return packetRegistry;
     }
+
     public Collection<User> getUsers() {
         return getRegisterMap().values();
     }
+
     public Collection<Channel> getChannels() {
         return channels;
     }
+
     public Collection<Channel> getRegisteredChannels() {
         return getRegisterMap().keySet();
     }
+
     private Map<Channel, User> getRegisterMap() {
         return regMap;
     }
-
 
 }
