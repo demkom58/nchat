@@ -64,7 +64,7 @@ public class ClientMessenger {
             while (work) {
                 String message = messagesQueue.take().replaceAll("╥", "");
                 channelFuture = sendPacket(new AMessagePacket(message));
-                ClientUser.addSentMessage();
+                User.addSentMessage();
             }
             if (channelFuture != null) channelFuture.sync();
         } finally {
@@ -73,7 +73,7 @@ public class ClientMessenger {
     }
 
     private void register() {
-        sendPacket(new CAuthPacket(ClientUser.getName(), Main.PROTOCOL_VERSION));
+        sendPacket(new CAuthPacket(User.getName(), Main.PROTOCOL_VERSION));
     }
 
     public static ClientMessenger getClientMessenger() {

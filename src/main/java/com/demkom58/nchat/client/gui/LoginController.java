@@ -2,7 +2,7 @@ package com.demkom58.nchat.client.gui;
 
 import com.demkom58.nchat.Main;
 import com.demkom58.nchat.client.network.ClientMessenger;
-import com.demkom58.nchat.client.network.ClientUser;
+import com.demkom58.nchat.client.network.User;
 import com.demkom58.nchat.client.util.DataFX;
 import com.demkom58.nchat.client.util.DataIP;
 import com.demkom58.nchat.common.network.handler.PacketEncoder;
@@ -53,7 +53,7 @@ public class LoginController extends AbstractController {
             loginField.setText(nick.replaceAll(fs, ""));
         if(nick.length() == 0 || nick.length() > 16 || voidName.length() == 0) return;
 
-        ClientUser.setName(nick);
+        User.setName(nick);
         DataFX.updateGuiNick(nick);
 
         ChatController chatController = (ChatController) DataFX.Scenes.getController(ChatController.class);

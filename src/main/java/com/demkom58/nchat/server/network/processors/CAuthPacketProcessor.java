@@ -51,7 +51,7 @@ public class CAuthPacketProcessor {
 
         server.registerUser(channel, localUser);
         localUser.sendMessage("Now you are connected to the chat server.");
-        logger.info("ClientUser " + localUser.getNick() + "[" + localUser.getAddress() + "] has joined.");
+        logger.info("User " + localUser.getNick() + "[" + localUser.getAddress() + "] has joined.");
 
         for (User cUser : users)
             if (cUser.getChannel() != channel) cUser.sendMessage("[Server] " + server.getUser(channel).getNick() + " has joined!");
