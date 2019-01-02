@@ -1,26 +1,26 @@
 package com.demkom58.nchat.client.network;
 
-public class ClientUser {
-    private ClientUser() {
+public class User {
+    private User() {
     }
 
     private static int messagesSent = 0;
     private static String name;
 
     public static void setName(String name) {
-        ClientUser.name = name;
+        User.name = name;
     }
 
     public static String getName() {
-        return ClientUser.name;
+        return User.name;
     }
 
     public static int getMessagesSent() {
-        return ClientUser.messagesSent;
+        return User.messagesSent;
     }
 
     public static void addSentMessage() {
-        ClientUser.messagesSent += 1;
+        User.messagesSent += 1;
     }
 
 }

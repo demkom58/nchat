@@ -75,7 +75,7 @@ public class Server extends SocketServer {
        final ADisconnectPacket packet = new ADisconnectPacket(reason);
 
         channel.writeAndFlush(packet);
-        LOGGER.info("ClientUser " + user.getNick() + "[" + user.getAddress() + "]" + " disconnected. Reason: " + reason);
+        LOGGER.info("User " + user.getNick() + "[" + user.getAddress() + "]" + " disconnected. Reason: " + reason);
 
         user.sendPacket(packet);
         removeUser(channel);

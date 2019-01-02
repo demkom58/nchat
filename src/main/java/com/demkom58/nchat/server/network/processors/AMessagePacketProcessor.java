@@ -25,7 +25,7 @@ public class AMessagePacketProcessor {
             User.sendMessage(channel, "Register first please!");
             User.sendMessage(channel, "You was kicked!");
 
-            server.kickUser(channel, "ClientUser wasn't registered.");
+            server.kickUser(channel, "User wasn't registered.");
             return;
         }
 
@@ -45,7 +45,7 @@ public class AMessagePacketProcessor {
 
         if (message.length() > Main.MAX_MESSAGE_LENGTH) {
             eventUser.sendMessage("Your message bigger then " + Main.MAX_MESSAGE_LENGTH + " symbols. Message was cancelled.");
-            logger.info("ClientUser " + eventUser.getNick() + " tried to send message with length bigger then " + Main.MAX_MESSAGE_LENGTH);
+            logger.info("User " + eventUser.getNick() + " tried to send message with length bigger then " + Main.MAX_MESSAGE_LENGTH);
             return;
         }
 
