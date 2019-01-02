@@ -7,31 +7,21 @@ import com.demkom58.nchat.common.network.packets.client.CAuthPacket;
 import com.demkom58.nchat.common.network.packets.common.ADisconnectPacket;
 import com.demkom58.nchat.common.network.packets.common.AMessagePacket;
 import com.demkom58.nchat.common.network.util.NetworkUtil;
-import com.demkom58.nchat.server.network.ServerInitializer;
 import com.demkom58.nchat.server.network.User;
-import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.EventLoopGroup;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
-import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.util.concurrent.GlobalEventExecutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.net.InetSocketAddress;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
 
-public class Server {
-
-    public static synchronized void start(List<String> args) throws Exception {
-        if(Server.server != null) return;
-        Server.server = new Server(Main.PORT);
-    }
+public class Server extends SocketServer {
 
     private static Server server;
 
@@ -40,50 +30,42 @@ public class Server {
     private final static ChannelGroup channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
     private final static Map<Channel, User> regMap = new WeakHashMap<>();
 
-    private EventLoopGroup bossGroup;
-    private EventLoopGroup workersGroup;
-
     private IPacketRegistry packetRegistry;
 
-    private int port;
+    private final String host;
+    private final int port;
 
-    private Server(int port) throws Exception {
+    private Server(String host, int port) throws Exception {
+        super();
+
         Server.server = this;
+
+        this.host = host;
         this.port = port;
+
         run();
     }
 
-    private void run() throws Exception {
+    private void run() {
         getLogger().info("Starting server...");
         this.packetRegistry = new PacketRegistry();
         this.packetRegistry.registerPacket(CAuthPacket.class);
         this.packetRegistry.registerPacket(AMessagePacket.class);
         this.packetRegistry.registerPacket(ADisconnectPacket.class);
 
-        this.bossGroup = new NioEventLoopGroup(1);
-        this. workersGroup = new NioEventLoopGroup();
         try {
-            ServerBootstrap networkServer = new ServerBootstrap();
-            networkServer
-                    .group(bossGroup, workersGroup)
-                    .channel(NioServerSocketChannel.class)
-
-                    //.handler(new LoggingHandler(LogLevel.INFO))
-                    .childHandler(new ServerInitializer())
-
-                    .option(ChannelOption.SO_BACKLOG, 128)
-                    .childOption(ChannelOption.SO_KEEPALIVE, true);
-
             getLogger().info("Waiting for connections...");
-            networkServer.bind(port).sync().channel().closeFuture().sync();
+            bind(new InetSocketAddress(host, port));
         } finally {
-            shutdown();
+            stop();
         }
+
     }
 
     public User getUser(Channel channel) {
         return getRegisterMap().get(channel);
     }
+
     public void registerUser(Channel channel, User user) {
         getRegisterMap().put(channel, user);
     }
@@ -98,6 +80,7 @@ public class Server {
         user.sendPacket(packet);
         removeUser(channel);
     }
+
     public void kickUser(Channel channel, String reason) {
         final User user = getUser(channel);
         if(user != null) {
@@ -112,6 +95,7 @@ public class Server {
         User.sendPacket(channel, packet);
         removeUser(channel);
     }
+
     public void removeUser(Channel channel) {
         getChannels().remove(channel);
         getRegisterMap().remove(channel);
@@ -123,14 +107,13 @@ public class Server {
         getRegisteredChannels().forEach(channel -> channel.writeAndFlush(rMessage));
     }
 
-    public void shutdown(String reason) {
+    public void stop(String reason) {
         broadcast(reason);
-        this.bossGroup.shutdownGracefully();
-        this.workersGroup.shutdownGracefully();
+        shutdown();
     }
 
-    public void shutdown() {
-        shutdown("Server has been disabled.");
+    public void stop() {
+        stop("Server has been disabled.");
     }
 
     public Logger getLogger() {
@@ -159,6 +142,11 @@ public class Server {
 
     private Map<Channel, User> getRegisterMap() {
         return regMap;
+    }
+
+    public static synchronized void start(List<String> args) throws Exception {
+        if(Server.server != null) return;
+        Server.server = new Server(Main.HOST, Main.PORT);
     }
 
 }
