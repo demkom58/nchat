@@ -6,8 +6,10 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.epoll.Epoll;
 import io.netty.channel.epoll.EpollEventLoopGroup;
+import io.netty.channel.epoll.EpollServerSocketChannel;
 import io.netty.channel.kqueue.KQueue;
 import io.netty.channel.kqueue.KQueueEventLoopGroup;
+import io.netty.channel.kqueue.KQueueServerSocketChannel;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import org.slf4j.Logger;
@@ -34,7 +36,7 @@ public abstract class SocketServer {
 
         this.bootstrap = new ServerBootstrap()
                 .group(bossGroup, workerGroup)
-                .channel(NioServerSocketChannel.class)
+                .channel(epoll ? EpollServerSocketChannel.class : (kQueue ? KQueueServerSocketChannel.class : NioServerSocketChannel.class))
 
                 //.handler(new LoggingHandler(LogLevel.INFO))
                 .childHandler(new ServerInitializer())
