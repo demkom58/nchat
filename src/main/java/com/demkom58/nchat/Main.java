@@ -4,9 +4,10 @@ import com.demkom58.nchat.client.Client;
 import com.demkom58.nchat.server.Server;
 import io.netty.util.internal.logging.InternalLoggerFactory;
 import io.netty.util.internal.logging.Slf4JLoggerFactory;
+import joptsimple.OptionParser;
+import joptsimple.OptionSet;
 
 import java.util.Arrays;
-import java.util.List;
 
 public class Main {
     public static final String HOST = "localhost";
@@ -24,21 +25,31 @@ public class Main {
     public static final String DATA_PATH = System.getenv("APPDATA") + "/NChat/";
     public static final String STYLES_PATH = DATA_PATH + "styles/";
 
-    public static void main(String[] as) throws Exception {
-        List<String> args = Arrays.asList(as);
-
+    public static void main(String[] args) throws Exception {
         InternalLoggerFactory.setDefaultFactory(Slf4JLoggerFactory.INSTANCE);
 
-        if(args.contains("server")) startServer(args);
-        else startClient(args);
+        final OptionParser optionParser = new OptionParser();
+
+        optionParser.acceptsAll(Arrays.asList("s", "server"));
+        optionParser.acceptsAll(Arrays.asList("h", "host")).availableIf("server").withRequiredArg();
+        optionParser.acceptsAll(Arrays.asList("p", "port")).availableIf("server").withRequiredArg();
+        optionParser.accepts("help").forHelp();
+
+        final OptionSet optionSet = optionParser.parse(args);
+
+        if(optionSet.has("server"))
+            startServer(optionSet);
+        else
+            startClient(optionSet);
+
     }
 
-    private static void startClient(List<String> args) {
-        Client.start(args);
+    private static void startClient(OptionSet optionSet) {
+        Client.start(optionSet);
     }
 
-    private static void startServer(List<String> args) throws Exception {
-        Server.start(args);
+    private static void startServer(OptionSet optionSet) throws Exception {
+        Server.start(optionSet);
     }
 
 }
