@@ -18,7 +18,7 @@ public class AMessagePacketProcessor {
         Channel channel = spp.getChannel();
 
         Server server = Server.getServer();
-        String message = packet.getMessage().trim().replaceAll(PacketEncoder.getFrameSymbol(), "");
+        String message = packet.getMessage().trim().replace(PacketEncoder.getFrameSymbol(), "");
         User eventUser = server.getUser(channel);
 
         if(eventUser == null) {
@@ -29,14 +29,13 @@ public class AMessagePacketProcessor {
             return;
         }
 
-        if(message.replaceAll(" ", "").replaceAll("\n", "").length() < 1) {
+        String logMessage = message.replace("\n", " ");
+        if(logMessage.replace(" ", "").length() < 1) {
             eventUser.sendMessage("Too short message.");
             return;
         }
 
-
         Collection<User> users = server.getUsers();
-
         if(System.currentTimeMillis() < eventUser.getLastSentMessageTime()) {
             eventUser.sendMessage("[Server] Too many messages in second!");
             return;
@@ -52,6 +51,6 @@ public class AMessagePacketProcessor {
         for (User user : users)
             user.sendMessage("[" + eventUser.getNick() + "] " + message);
 
-        logger.info("[" + eventUser.getAddress() + "] [" + eventUser.getNick() + "] " + message);
+        logger.info("[" + eventUser.getAddress() + "] [" + eventUser.getNick() + "] " + logMessage);
     }
 }

@@ -46,11 +46,11 @@ public class LoginController extends AbstractController {
 
     private void login() {
         String nick = loginField.getText();
-        String voidName = nick.replaceAll(" ", "");
+        String voidName = nick.replace(" ", "");
         String fs = PacketEncoder.getFrameSymbol();
 
         if(nick.contains(fs))
-            loginField.setText(nick.replaceAll(fs, ""));
+            loginField.setText(nick.replace(fs, ""));
 
         if(nick.length() == 0 || nick.length() > 16 || voidName.length() == 0)
             return;
