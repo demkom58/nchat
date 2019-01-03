@@ -9,9 +9,6 @@ import com.demkom58.nchat.common.network.packets.common.AMessagePacket;
 import com.demkom58.nchat.common.network.util.NetworkUtil;
 import com.demkom58.nchat.server.network.User;
 import io.netty.channel.Channel;
-import io.netty.channel.group.ChannelGroup;
-import io.netty.channel.group.DefaultChannelGroup;
-import io.netty.util.concurrent.GlobalEventExecutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,8 +22,6 @@ public class Server extends SocketServer {
     private static Server server;
 
     private static final Logger LOGGER = LoggerFactory.getLogger("[SERVER]");
-
-    private static final ChannelGroup channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
     private static final Map<Channel, User> regMap = new WeakHashMap<>();
 
     private final String host;
@@ -119,10 +114,6 @@ public class Server extends SocketServer {
 
     public Collection<User> getUsers() {
         return getRegisterMap().values();
-    }
-
-    public Collection<Channel> getChannels() {
-        return channels;
     }
 
     public Collection<Channel> getRegisteredChannels() {
