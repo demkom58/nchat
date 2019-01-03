@@ -18,7 +18,7 @@ public class AMessagePacketProcessor {
         Channel channel = spp.getChannel();
 
         Server server = Server.getServer();
-        String message = packet.getMessage().replaceAll("[\n]+", "\n").replaceAll(PacketEncoder.getFrameSymbol(), "");
+        String message = packet.getMessage().trim().replaceAll(PacketEncoder.getFrameSymbol(), "");
         User eventUser = server.getUser(channel);
 
         if(eventUser == null) {
@@ -49,9 +49,9 @@ public class AMessagePacketProcessor {
             return;
         }
 
-        String toSend = message.replaceAll("(\\s)\\1","$1").replaceAll("\\s+"," ");
+        for (User user : users)
+            user.sendMessage("[" + eventUser.getNick() + "] " + message);
 
-        for (User user : users) user.sendMessage("[" + eventUser.getNick() + "] " + message);
         logger.info("[" + eventUser.getAddress() + "] [" + eventUser.getNick() + "] " + message);
     }
 }
