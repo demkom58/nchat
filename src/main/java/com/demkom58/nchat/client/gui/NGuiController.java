@@ -1,21 +1,18 @@
 package com.demkom58.nchat.client.gui;
 
-import com.demkom58.nchat.client.util.DataFX;
+import com.demkom58.divine.gui.GuiController;
 import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 
-public abstract class AbstractController {
+public abstract class NGuiController extends GuiController {
 
     @FXML
     private Label close;
     @FXML
     private Label helloLabel;
-    @FXML
-    private Scene scene;
 
     //Close button pressed.
     @FXML
@@ -24,13 +21,9 @@ public abstract class AbstractController {
         transition.setDuration(Duration.seconds(0.25));
         transition.setFromValue(100);
         transition.setToValue(0);
-        transition.setNode(DataFX.Scenes.getAnchorPane(getClass()));
-        transition.setOnFinished(handler -> DataFX.close());
+        transition.setNode(getGuiManager().getAnchorPane(getClass()));
+        transition.setOnFinished(handler -> getGuiManager().close());
         transition.play();
-    }
-
-    public Scene getScene() {
-        return scene;
     }
 
     public Label getClose() {
@@ -39,10 +32,6 @@ public abstract class AbstractController {
 
     public Label getHelloLabel() {
         return helloLabel;
-    }
-
-    public void setScene(Scene scene) {
-        this.scene = scene;
     }
 
 }

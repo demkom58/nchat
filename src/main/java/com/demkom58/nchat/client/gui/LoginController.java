@@ -1,9 +1,9 @@
 package com.demkom58.nchat.client.gui;
 
+import com.demkom58.divine.gui.GuiController;
 import com.demkom58.nchat.Main;
 import com.demkom58.nchat.client.network.ClientMessenger;
 import com.demkom58.nchat.client.network.User;
-import com.demkom58.nchat.client.util.DataFX;
 import com.demkom58.nchat.client.util.DataIP;
 import com.demkom58.nchat.common.network.handler.PacketEncoder;
 import javafx.collections.ObservableList;
@@ -14,7 +14,9 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
-public class LoginController extends AbstractController {
+import java.util.Objects;
+
+public class LoginController extends NGuiController {
 
     @FXML private TextField ipField;
     @FXML private TextField loginField;
@@ -24,12 +26,18 @@ public class LoginController extends AbstractController {
     //IP list button pressed.
     @FXML
     public void onList(MouseEvent event) {
-        ObservableList ips = ((ListController) DataFX.Scenes.getController(ListController.class)).getIpList().getItems();
+        final ListController controller = getGuiManager().getController(ListController.class);
+
+        if (controller == null)
+            throw new NullPointerException("List controller not found!");
+
+        final ObservableList ips = controller.getIpList().getItems();
         if(ips != null) {
             ips.clear();
             ips.addAll(DataIP.loadIPList());
         }
-        DataFX.stage.setScene(DataFX.Scenes.getScene(ListController.class));
+
+        getGuiManager().setGui(controller);
     }
 
     //Join button pressed.
@@ -56,12 +64,12 @@ public class LoginController extends AbstractController {
             return;
 
         User.setName(nick);
-        DataFX.updateGuiNick(nick);
+        updateGuiNick(nick);
 
-        ChatController chatController = (ChatController) DataFX.Scenes.getController(ChatController.class);
+        ChatController chatController = Objects.requireNonNull(getGuiManager().getController(ChatController.class));
         chatController.getMessagesView().getItems().clear();
         chatController.getMessagesView().refresh();
-        DataFX.stage.setScene(DataFX.Scenes.getScene(ChatController.class));
+        getGuiManager().setGui(chatController);
 
         final String ip = getIpField().getText().isEmpty() ? Main.STANDARD_IP : getIpField().getText();
         DataIP.saveIP(ip);
@@ -90,6 +98,18 @@ public class LoginController extends AbstractController {
 
     public TextField getIpField() {
         return ipField;
+    }
+
+    public void updateGuiNick(String nick) {
+        final String greeting = "HELLO " + nick.toUpperCase();
+
+        getGuiManager().getGuiMap().values().forEach(e -> {
+            final GuiController controller = e.getThird();
+
+            if (controller instanceof NGuiController)
+                ((NGuiController) controller).getHelloLabel().setText(greeting);
+
+        });
     }
 
 }
