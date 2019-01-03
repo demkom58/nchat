@@ -9,12 +9,12 @@ import com.demkom58.nchat.common.network.packets.common.AMessagePacket;
 import com.demkom58.nchat.common.network.util.NetworkUtil;
 import com.demkom58.nchat.server.network.User;
 import io.netty.channel.Channel;
+import joptsimple.OptionSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.InetSocketAddress;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
 
@@ -43,7 +43,7 @@ public class Server extends SocketServer {
     }
 
     public void start() {
-        getLogger().info("Starting server...");
+        getLogger().info("Starting server on {}:{}.", host, port);
 
         try {
             getLogger().info("Waiting for connections...");
@@ -132,11 +132,19 @@ public class Server extends SocketServer {
         return LOGGER;
     }
 
-    public static synchronized void start(List<String> args) throws Exception {
-        if(server != null)
+    public static synchronized void start(OptionSet optionSet) throws Exception {
+        if (server != null)
             return;
 
-        server = new Server(Main.HOST, Main.PORT);
+        String host = optionSet.has("host")
+                ? (String) optionSet.valueOf("host")
+                : Main.HOST;
+
+        int port = optionSet.has("port")
+                ? Integer.valueOf((String) optionSet.valueOf("port"))
+                : Main.PORT;
+
+        server = new Server(host, port);
         server.start();
     }
 
