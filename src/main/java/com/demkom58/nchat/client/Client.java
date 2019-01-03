@@ -11,11 +11,11 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
+import joptsimple.OptionSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.List;
 
 public class Client extends Application {
     private static final Logger LOGGER = LoggerFactory.getLogger("[Client]");
@@ -56,8 +56,8 @@ public class Client extends Application {
     }
 
 
-    public static void start(List<String> args) {
-        launch(args.toArray(new String[0]));
+    public static void start(OptionSet optionSet) {
+        launch();
         getLogger().info("NChat v"+Main.APP_VERSION+" is launching.");
     }
 
