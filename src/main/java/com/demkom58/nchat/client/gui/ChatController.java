@@ -72,7 +72,7 @@ public class ChatController extends AbstractController {
     //Check message & send message to server.
     private void sendMessage() {
         String message = getMessageArea().getText();
-        if(message.length() < 1 || message.replaceAll(" ", "").length() < 1) return;
+        if(message.length() < 1 || message.replace(" ", "").length() < 1) return;
 
         ClientMessenger.getClientMessenger().sendMessage(message.trim());
         Platform.runLater(() -> getMessageArea().clear());

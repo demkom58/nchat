@@ -52,7 +52,7 @@ public class ClientMessenger extends SocketClient {
             sendPacket(new CAuthPacket(User.getName(), Main.PROTOCOL_VERSION));
 
             while (work) {
-                String message = messagesQueue.take().replaceAll("╥", "");
+                String message = messagesQueue.take().replace("╥", "");
                 setChannelFuture(sendPacket(new AMessagePacket(message)));
                 User.addSentMessage();
             }
