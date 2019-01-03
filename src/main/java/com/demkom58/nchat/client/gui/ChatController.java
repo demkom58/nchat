@@ -2,7 +2,6 @@ package com.demkom58.nchat.client.gui;
 
 import com.demkom58.nchat.Main;
 import com.demkom58.nchat.client.network.ClientMessenger;
-import com.demkom58.nchat.client.util.DataFX;
 import com.demkom58.nchat.common.network.packets.common.ADisconnectPacket;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -13,7 +12,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
-public class ChatController extends AbstractController {
+public class ChatController extends NGuiController {
 
     @FXML private ListView<String> messagesView;
     @FXML private Label sendButton;
@@ -25,7 +24,8 @@ public class ChatController extends AbstractController {
     public void onBack(MouseEvent event){
         ClientMessenger.getClientMessenger().sendPacket(new ADisconnectPacket("Returned in main menu."));
         ClientMessenger.close();
-        DataFX.stage.setScene(DataFX.Scenes.getScene(LoginController.class));
+
+        getGuiManager().setGui(LoginController.class);
     }
 
     //On Send button pressed.
