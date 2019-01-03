@@ -7,37 +7,30 @@ import com.demkom58.nchat.common.network.packets.Packet;
 import com.demkom58.nchat.common.network.packets.client.CAuthPacket;
 import com.demkom58.nchat.common.network.packets.common.ADisconnectPacket;
 import com.demkom58.nchat.common.network.packets.common.AMessagePacket;
-import io.netty.bootstrap.Bootstrap;
-import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.nio.NioSocketChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.net.InetSocketAddress;
 import java.util.concurrent.LinkedBlockingQueue;
 
-public class ClientMessenger {
-    private static ClientMessenger clientMessenger;
-
-    public static void prepare() {
-        if (ClientMessenger.clientMessenger == null) ClientMessenger.clientMessenger = new ClientMessenger();
-    }
-
-    private static boolean work;
-    private static LinkedBlockingQueue<String> messagesQueue = new LinkedBlockingQueue<>();
+public class ClientMessenger extends SocketClient {
     private static final Logger LOGGER = LoggerFactory.getLogger("[CLIENT]");
 
-    private static Channel channel;
+    private static LinkedBlockingQueue<String> messagesQueue = new LinkedBlockingQueue<>();
+    private static ClientMessenger clientMessenger;
+    private static boolean work;
+
     private IPacketRegistry packetRegistry;
 
     private String host;
     private int port;
 
-    public void run(String host, int port) throws Exception {
-        ClientMessenger.work = true;
+    public ClientMessenger(String host, int port) {
+        super();
+
         this.host = host;
         this.port = port;
 
@@ -46,54 +39,40 @@ public class ClientMessenger {
         this.packetRegistry.registerPacket(CAuthPacket.class);
         this.packetRegistry.registerPacket(AMessagePacket.class);
         this.packetRegistry.registerPacket(ADisconnectPacket.class);
+    }
 
+    public void run() throws Exception {
+        ClientMessenger.work = true;
         EventLoopGroup group = new NioEventLoopGroup();
 
         try {
-            Bootstrap bootstrap = new Bootstrap()
-                    .group(group)
-                    .channel(NioSocketChannel.class)
-                    .option(ChannelOption.SO_KEEPALIVE, true)
-                    .handler(new ClientInitializer());
-            channel = bootstrap.connect(host, port).sync().channel();
-            ChannelFuture channelFuture = null;
+            connect(new InetSocketAddress(host, port));
 
             //Send register packet
-            register();
+            sendPacket(new CAuthPacket(User.getName(), Main.PROTOCOL_VERSION));
 
             while (work) {
                 String message = messagesQueue.take().replaceAll("╥", "");
-                channelFuture = sendPacket(new AMessagePacket(message));
+                setChannelFuture(sendPacket(new AMessagePacket(message)));
                 User.addSentMessage();
             }
-            if (channelFuture != null) channelFuture.sync();
+
+            if (getChannelFuture() != null)
+                getChannelFuture().sync();
+
         } finally {
             group.shutdownGracefully();
         }
-    }
-
-    private void register() {
-        sendPacket(new CAuthPacket(User.getName(), Main.PROTOCOL_VERSION));
-    }
-
-    public static ClientMessenger getClientMessenger() {
-        return clientMessenger;
-    }
-
-    public static Channel getChannel() {
-        return channel;
     }
 
     public IPacketRegistry getPacketRegistry() {
         return packetRegistry;
     }
 
-    public static void close() {
-        work = false;
-    }
-
     public ChannelFuture sendPacket(Packet packet) {
-        if (channel == null) return null;
+        if (getChannel() == null)
+            return null;
+
         return getChannel().writeAndFlush(packet);
     }
 
@@ -109,8 +88,20 @@ public class ClientMessenger {
         return host;
     }
 
+    public static ClientMessenger getClientMessenger() {
+        return clientMessenger;
+    }
+
+    public static void close() {
+        work = false;
+    }
+
+    public static void setup(String host, int port) {
+        ClientMessenger.clientMessenger = new ClientMessenger(host, port);
+    }
+
     public static Logger getLogger() {
         return LOGGER;
     }
-
+    
 }

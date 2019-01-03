@@ -51,7 +51,9 @@ public class LoginController extends AbstractController {
 
         if(nick.contains(fs))
             loginField.setText(nick.replaceAll(fs, ""));
-        if(nick.length() == 0 || nick.length() > 16 || voidName.length() == 0) return;
+
+        if(nick.length() == 0 || nick.length() > 16 || voidName.length() == 0)
+            return;
 
         User.setName(nick);
         DataFX.updateGuiNick(nick);
@@ -63,11 +65,12 @@ public class LoginController extends AbstractController {
 
         final String ip = getIpField().getText().isEmpty() ? Main.STANDARD_IP : getIpField().getText();
         DataIP.saveIP(ip);
+
         try {
             new Thread(() -> {
-                ClientMessenger.prepare();
+                ClientMessenger.setup(ip, Main.PORT);
                 try {
-                    ClientMessenger.getClientMessenger().run(ip, Main.PORT);
+                    ClientMessenger.getClientMessenger().run();
                 } catch (Exception e) { e.printStackTrace(); }
             }).start();
         } catch (Exception e) { e.printStackTrace(); }
