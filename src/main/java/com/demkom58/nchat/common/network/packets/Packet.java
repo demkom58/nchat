@@ -22,7 +22,7 @@ public abstract class Packet<PACKET_PROCESSOR extends IPacketProcessor> implemen
     }
 
     protected void packString(ByteBuf buf, String str) {
-        String st = str.replaceAll(PacketEncoder.getFrameSymbol(), "");
+        String st = str.replace(PacketEncoder.getFrameSymbol(), "");
         byte[] bStr = st.getBytes(StandardCharsets.UTF_8);
         buf.writeShort(bStr.length);
         buf.writeBytes(bStr);

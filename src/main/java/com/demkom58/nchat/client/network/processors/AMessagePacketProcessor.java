@@ -3,6 +3,7 @@ package com.demkom58.nchat.client.network.processors;
 import com.demkom58.nchat.client.gui.ChatController;
 import com.demkom58.nchat.client.network.ClientPacketProcessor;
 import com.demkom58.nchat.client.util.DataFX;
+import com.demkom58.nchat.common.network.handler.PacketEncoder;
 import com.demkom58.nchat.common.network.packets.common.AMessagePacket;
 import javafx.application.Platform;
 import javafx.geometry.Orientation;
@@ -14,7 +15,7 @@ import java.util.Objects;
 public class AMessagePacketProcessor {
     public static void processAMessagePacket(AMessagePacket packet, ClientPacketProcessor cpp) {
         final Logger logger = ClientPacketProcessor.LOGGER;
-        final String msg = packet.getMessage();
+        final String msg = packet.getMessage().trim().replace(PacketEncoder.getFrameSymbol(), "");
 
         ChatController chatController = (ChatController) DataFX.Scenes.getController(ChatController.class);
         Platform.runLater(() -> {
@@ -25,6 +26,6 @@ public class AMessagePacketProcessor {
                     .findFirst().ifPresent(br -> br.visibleProperty().addListener((observable, oldValue, newValue) -> chatController.getMessagesView().scrollTo(newValue ? Integer.MAX_VALUE : 0)));
         });
 
-        logger.info(msg);
+        logger.info(msg.replace("\n", " "));
     }
 }

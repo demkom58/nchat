@@ -43,7 +43,7 @@ public class CAuthPacketProcessor {
             return;
         }
 
-        String voidName = nick.replaceAll(" ", "");
+        String voidName = nick.replace(" ", "");
         if (voidName.length() == 0 || nick.length() > 16) {
             localUser.kick("Bad nick format.");
             return;
