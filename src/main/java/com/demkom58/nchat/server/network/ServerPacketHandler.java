@@ -22,38 +22,54 @@ public class ServerPacketHandler extends PacketHandler {
     @Override
     public void handlerAdded(ChannelHandlerContext ctx) throws Exception {
         super.handlerAdded(ctx);
+
         Server server = Server.getServer();
         Collection<User> users = server.getUsers();
+
         int connections = 0;
 
         String address = NetworkUtil.getAddress(ctx.channel()).split(":")[0];
         Channel incoming = ctx.channel();
+
         for (User user : users) {
-            if (address.equals(user.getIP())) connections += 1;
-            if (connections < Main.CONNECTIONS_PER_IP) continue;
+
+            if (address.equals(user.getIP()))
+                connections += 1;
+
+            if (connections < Main.CONNECTIONS_PER_IP)
+                continue;
 
             String reason = "Too many connections.";
+
             User.sendMessage(incoming, reason);
             User.sendMessage(incoming, "You was kicked.");
+
             server.kickUser(incoming, reason);
             return;
         }
+
         server.getChannels().add(incoming);
     }
 
     @Override
     public void handlerRemoved(ChannelHandlerContext ctx) {
-        if(!Server.getServer().getChannels().contains(ctx.channel()) && !Server.getServer().getRegisteredChannels().contains(ctx.channel())) return;
+        if(!Server.getServer().getChannels().contains(ctx.channel())
+                && !Server.getServer().getRegisteredChannels().contains(ctx.channel()))
+            return;
+
         Channel channel = ctx.channel();
         Server server = Server.getServer();
+
         server.removeUser(channel);
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         Channel channel = ctx.channel();
+
         String reason = "Connection["+ NetworkUtil.getAddress(channel)+"] Exception caught: " + cause.getMessage();
         LOGGER.warn(reason);
+
         handlerRemoved(ctx);
     }
 
