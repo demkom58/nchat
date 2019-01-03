@@ -1,6 +1,5 @@
 package com.demkom58.nchat.client.gui;
 
-import com.demkom58.nchat.client.util.DataFX;
 import com.demkom58.nchat.client.util.DataIP;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -9,7 +8,9 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 
-public class ListController extends AbstractController {
+import java.util.Objects;
+
+public class ListController extends NGuiController {
 
     @FXML private ListView ipList;
     @FXML private Label selectButton;
@@ -18,17 +19,17 @@ public class ListController extends AbstractController {
     //Select IP button pressed.
     @FXML
     public void onSelect(MouseEvent event) {
-        LoginController loginController = (LoginController) DataFX.Scenes.getController(LoginController.class);
+        LoginController loginController = Objects.requireNonNull(getGuiManager().getController(LoginController.class));
         TextField ipField = loginController.getIpField();
 
         ObservableList list = getIpList().getSelectionModel().getSelectedItems();
         if(list.isEmpty()) {
-            DataFX.stage.setScene(loginController.getScene());
+            getGuiManager().setGui(loginController);
             return;
         }
 
         ipField.setText((String)getIpList().getSelectionModel().getSelectedItems().get(0));
-        DataFX.stage.setScene(loginController.getScene());
+        getGuiManager().setGui(loginController);
     }
 
     //Remove IP button pressed.
