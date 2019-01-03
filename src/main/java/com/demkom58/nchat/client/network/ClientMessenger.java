@@ -103,5 +103,5 @@ public class ClientMessenger extends SocketClient {
     public static Logger getLogger() {
         return LOGGER;
     }
-    
+
 }
