@@ -15,45 +15,48 @@ public class GuiStyleLoader {
 
     public GuiStyleLoader() { }
 
-    public FXMLLoader getFXMLLoaderAndExport(@NotNull final Class resourceAccessor,
-                                                    @NotNull final String fxmlPath,
-                                                    @NotNull final String remotePath) throws Exception {
+    public @NotNull FXMLLoader getFXMLLoaderAndExport(@NotNull final Class resourceAccessor,
+                                                      @NotNull final String fxmlPath,
+                                                      @NotNull final String remotePath) throws Exception {
         return new FXMLLoader(exportResource(resourceAccessor, fxmlPath, remotePath).toURI().toURL());
     }
 
-    public File exportResource(@NotNull final Class resourceAccessor,
-                                      @NotNull final String localPath,
-                                      @NotNull final String remotePath) throws Exception {
-        File distFile = new File(remotePath, localPath);
+    public @NotNull File exportResource(@NotNull final Class resourceAccessor,
+                                        @NotNull final String localPath,
+                                        @NotNull final String remotePath) throws Exception {
 
-        if (!distFile.exists()) {
-            distFile.getParentFile().mkdirs();
-            exportResource(resourceAccessor, localPath, distFile);
+        final File remoteResource = new File(remotePath, localPath);
+
+        if (!remoteResource.exists()) {
+            remoteResource.getParentFile().mkdirs();
+            exportResource(resourceAccessor, localPath, remoteResource);
         }
 
-        return distFile;
+        return remoteResource;
     }
 
     private void exportResource(@NotNull final Class resourceAccessor,
-                                       @NotNull final String localPath,
-                                       @NotNull final File distFile) throws Exception {
+                                @NotNull final String localPath,
+                                @NotNull final File distFile) throws Exception {
 
-        try (InputStream local = resourceAccessor.getResourceAsStream(localPath);
-             OutputStream dist = new FileOutputStream(distFile)) {
+        try (InputStream localStream = resourceAccessor.getResourceAsStream(localPath);
+             OutputStream remoteStream = new FileOutputStream(distFile)) {
 
-            if (local == null)
+            if (localStream == null)
                 throw new Exception("Cannot get resource \"" + localPath + "\" from Jar file.");
 
             final byte[] buffer = new byte[4096];
-            int readBytes;
 
-            while ((readBytes = local.read(buffer)) > 0)
-                dist.write(buffer, 0, readBytes);
+            int readBytes;
+            while ((readBytes = localStream.read(buffer)) > 0)
+                remoteStream.write(buffer, 0, readBytes);
 
         }
     }
 
-    public boolean checkStyleVersion(String path, String currentVersion) throws Exception {
+    public boolean checkStyleVersion(@NotNull final String path,
+                                     @NotNull final String currentVersion) throws Exception {
+
         final File file = new File(path, "style.ver");
 
         if (file.exists()) {

@@ -2,6 +2,7 @@ package com.demkom58.nchat.client.gui;
 
 import com.demkom58.divine.gui.GuiController;
 import com.demkom58.nchat.Main;
+import com.demkom58.nchat.client.Client;
 import com.demkom58.nchat.client.network.ClientMessenger;
 import com.demkom58.nchat.client.network.User;
 import com.demkom58.nchat.client.util.DataIP;
@@ -23,7 +24,9 @@ public class LoginController extends NGuiController {
     @FXML private Label joinButton;
     @FXML private Label listButton;
 
-    //IP list button pressed.
+    /**
+     * IP list button pressed.
+     */
     @FXML
     public void onList(MouseEvent event) {
         final ListController controller = getGuiManager().getController(ListController.class);
@@ -40,13 +43,17 @@ public class LoginController extends NGuiController {
         getGuiManager().setGui(controller);
     }
 
-    //Join button pressed.
+    /**
+     * Join button pressed.
+     */
     @FXML
     public void onJoin(MouseEvent event){
         login();
     }
 
-    //On Enter pressed (Login)
+    /**
+     * On Enter pressed (Login)
+     */
     @FXML
     public void onEnter(KeyEvent event) {
         if(event.getCode().equals(KeyCode.ENTER)) login();
@@ -63,7 +70,7 @@ public class LoginController extends NGuiController {
         if(nick.length() == 0 || nick.length() > 16 || voidName.length() == 0)
             return;
 
-        User.setName(nick);
+        Client.getClient().setUser(new User(nick));
         updateGuiNick(nick);
 
         ChatController chatController = Objects.requireNonNull(getGuiManager().getController(ChatController.class));
