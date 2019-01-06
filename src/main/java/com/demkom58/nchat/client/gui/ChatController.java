@@ -19,7 +19,9 @@ public class ChatController extends NGuiController {
     @FXML private Label backButton;
     @FXML private TextArea messageArea;
 
-    //Return on Login page.
+    /**
+     * Return on Login page.
+     */
     @FXML
     public void onBack(MouseEvent event){
         ClientMessenger.getClientMessenger().sendPacket(new ADisconnectPacket("Returned in main menu."));
@@ -28,13 +30,17 @@ public class ChatController extends NGuiController {
         getGuiManager().setGui(LoginController.class);
     }
 
-    //On Send button pressed.
+    /**
+     * On Send button pressed.
+     */
     @FXML
     public void onSend(MouseEvent event){
         sendMessage();
     }
 
-    //On Enter pressed (Send & New line).
+    /**
+     * On Enter pressed (Send & New line).
+     */
     @FXML
     public void onKeyPressed(KeyEvent event) {
         if (event.getCode().equals(KeyCode.ENTER) && !event.isShiftDown()) {
@@ -55,7 +61,9 @@ public class ChatController extends NGuiController {
         }
     }
 
-    //Message length limitation
+    /**
+     * Message length limitation.
+     */
     @FXML
     public void onKeyTyped(KeyEvent event) {
         final int lengthLimit = 1000;
@@ -69,7 +77,9 @@ public class ChatController extends NGuiController {
         });
     }
 
-    //Check message & send message to server.
+    /**
+     * Check message & send message to server.
+     */
     private void sendMessage() {
         String message = getMessageArea().getText();
         if(message.length() < 1 || message.replace(" ", "").length() < 1) return;

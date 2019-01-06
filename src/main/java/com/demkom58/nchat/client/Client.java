@@ -6,6 +6,7 @@ import com.demkom58.nchat.Main;
 import com.demkom58.nchat.client.gui.ChatController;
 import com.demkom58.nchat.client.gui.ListController;
 import com.demkom58.nchat.client.gui.LoginController;
+import com.demkom58.nchat.client.network.User;
 import javafx.animation.FadeTransition;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -26,6 +27,7 @@ public class Client extends Application {
 
     private GuiStyleLoader styleLoader = new GuiStyleLoader();
     private GuiManager guiManager;
+    private User user;
 
     @Override
     public void start(@NotNull final Stage stage) throws Exception {
@@ -77,6 +79,15 @@ public class Client extends Application {
 
     public GuiManager getGuiManager() {
         return guiManager;
+    }
+
+    public void setUser(@NotNull final User user) {
+        this.user = user;
+    }
+
+    @NotNull
+    public User getUser() {
+        return user;
     }
 
     public static Client getClient() {

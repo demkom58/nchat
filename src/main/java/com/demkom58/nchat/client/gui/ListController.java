@@ -16,7 +16,9 @@ public class ListController extends NGuiController {
     @FXML private Label selectButton;
     @FXML private Label deleteButton;
 
-    //Select IP button pressed.
+    /**
+     * Select IP button pressed.
+     */
     @FXML
     public void onSelect(MouseEvent event) {
         LoginController loginController = Objects.requireNonNull(getGuiManager().getController(LoginController.class));
@@ -32,7 +34,9 @@ public class ListController extends NGuiController {
         getGuiManager().setGui(loginController);
     }
 
-    //Remove IP button pressed.
+    /**
+     * Remove IP button pressed.
+     */
     @FXML
     public void onRemove(MouseEvent event) {
         getIpList().getItems().remove(getIpList().getSelectionModel().getSelectedItems().get(0));
