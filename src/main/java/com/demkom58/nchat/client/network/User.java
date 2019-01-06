@@ -1,26 +1,31 @@
 package com.demkom58.nchat.client.network;
 
+import org.jetbrains.annotations.NotNull;
+
 public class User {
-    private User() {
+
+    @NotNull private String name;
+    private int messagesSent = 0;
+
+    public User(@NotNull final String name) {
+        this.name = name;
     }
 
-    private static int messagesSent = 0;
-    private static String name;
-
-    public static void setName(String name) {
-        User.name = name;
+    public void setName(@NotNull final String name) {
+        this.name = name;
     }
 
-    public static String getName() {
-        return User.name;
+    @NotNull
+    public String getName() {
+        return this.name;
     }
 
-    public static int getMessagesSent() {
-        return User.messagesSent;
+    public int getMessagesSent() {
+        return this.messagesSent;
     }
 
-    public static void addSentMessage() {
-        User.messagesSent += 1;
+    public void addSentMessage() {
+        this.messagesSent += 1;
     }
 
 }

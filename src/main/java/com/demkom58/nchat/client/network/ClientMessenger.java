@@ -1,6 +1,7 @@
 package com.demkom58.nchat.client.network;
 
 import com.demkom58.nchat.Main;
+import com.demkom58.nchat.client.Client;
 import com.demkom58.nchat.common.network.IPacketRegistry;
 import com.demkom58.nchat.common.network.PacketRegistry;
 import com.demkom58.nchat.common.network.packets.Packet;
@@ -46,15 +47,16 @@ public class ClientMessenger extends SocketClient {
         EventLoopGroup group = new NioEventLoopGroup();
 
         try {
+            User user = Client.getClient().getUser();
             connect(new InetSocketAddress(host, port));
 
             //Send register packet
-            sendPacket(new CAuthPacket(User.getName(), Main.PROTOCOL_VERSION));
+            sendPacket(new CAuthPacket(user.getName(), Main.PROTOCOL_VERSION));
 
             while (work) {
                 String message = messagesQueue.take().replace("╥", "");
                 setChannelFuture(sendPacket(new AMessagePacket(message)));
-                User.addSentMessage();
+                user.addSentMessage();
             }
 
             if (getChannelFuture() != null)

@@ -9,12 +9,12 @@ import javafx.util.Duration;
 
 public abstract class NGuiController extends GuiController {
 
-    @FXML
-    private Label close;
-    @FXML
-    private Label helloLabel;
+    @FXML private Label close;
+    @FXML private Label helloLabel;
 
-    //Close button pressed.
+    /**
+     * Close button pressed.
+     */
     @FXML
     public void onClose(MouseEvent event) {
         FadeTransition transition = new FadeTransition();
