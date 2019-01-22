@@ -17,18 +17,21 @@ public class ADisconnectPacketProcessor {
         Server server = Server.getServer();
         String reason = packet.getReason();
 
-        String address = "["+ NetworkUtil.getAddress(channel)+"]";
+        String address = "[" + NetworkUtil.getAddress(channel) + "]";
         String log;
 
         if(!server.getRegisteredChannels().contains(channel)) {
             server.removeUser(channel);
+
             log = "Connection" + address + " has lost server.";
         } else {
             User user = server.getUser(channel);
             server.broadcast("[Server] " + user.getNick() + " has left!");
             server.removeUser(channel);
+
             log = "User " + user.getNick() + address + " has left server.";
         }
+
         log += " Reason: " + reason;
         logger.info(log);
     }

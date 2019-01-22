@@ -75,10 +75,12 @@ public class Server extends SocketServer {
 
     public void kickUser(Channel channel, String reason) {
         final User user = getUser(channel);
-        if(user != null) {
+
+        if (user != null) {
             kickUser(user, reason);
             return;
         }
+
         final ADisconnectPacket packet = new ADisconnectPacket(reason);
 
         channel.writeAndFlush(packet);
@@ -91,6 +93,7 @@ public class Server extends SocketServer {
     public void removeUser(Channel channel) {
         getChannels().remove(channel);
         getRegisterMap().remove(channel);
+
         channel.close();
     }
 
