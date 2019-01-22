@@ -39,6 +39,7 @@ public class CAuthPacketProcessor {
         for (User cUser : users) if (cUser.getNick().equals(nick)) {
             User.sendMessage(channel, "This nickname is already taken.");
             User.sendMessage(channel, "You was kicked.");
+
             localUser.kick("This nick already taken.");
             return;
         }
@@ -54,6 +55,7 @@ public class CAuthPacketProcessor {
         logger.info("User " + localUser.getNick() + "[" + localUser.getAddress() + "] has joined.");
 
         for (User cUser : users)
-            if (cUser.getChannel() != channel) cUser.sendMessage("[Server] " + server.getUser(channel).getNick() + " has joined!");
+            if (cUser.getChannel() != channel)
+                cUser.sendMessage("[Server] " + server.getUser(channel).getNick() + " has joined!");
     }
 }

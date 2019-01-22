@@ -13,10 +13,12 @@ import java.nio.charset.StandardCharsets;
 @EqualsAndHashCode(callSuper = true)
 public class ADisconnectPacket extends Packet<CommonPacketProcessor> {
 
-    private final short id = 2;
+    private final short id = 0x02;
     @NotNull private String reason = "No reason.";
 
-    public ADisconnectPacket() {}
+    public ADisconnectPacket() {
+        // Empty constructor for building this by methods inside.
+    }
 
     public ADisconnectPacket(@NotNull String reason) {
         this.reason = reason;

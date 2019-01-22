@@ -24,6 +24,7 @@ public abstract class Packet<PACKET_PROCESSOR extends IPacketProcessor> implemen
     protected void packString(ByteBuf buf, String str) {
         String st = str.replace(PacketEncoder.getFrameSymbol(), "");
         byte[] bStr = st.getBytes(StandardCharsets.UTF_8);
+
         buf.writeShort(bStr.length);
         buf.writeBytes(bStr);
     }
@@ -31,6 +32,7 @@ public abstract class Packet<PACKET_PROCESSOR extends IPacketProcessor> implemen
     protected String unpackString(ByteBuf buf) {
         byte[] bMsg = new byte[buf.readShort()];
         buf.readBytes(bMsg);
+
         return new String(bMsg, StandardCharsets.UTF_8);
     }
 }

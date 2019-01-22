@@ -12,7 +12,8 @@ public abstract class CommonPacketProcessor extends PacketProcessor {
     }
 
     public abstract void processCAuthPacket(CAuthPacket packet);
-    public abstract void processAMessagePacket(AMessagePacket packet);
-    public abstract void processADisconnectPacket(ADisconnectPacket packet);
 
+    public abstract void processAMessagePacket(AMessagePacket packet);
+
+    public abstract void processADisconnectPacket(ADisconnectPacket packet);
 }

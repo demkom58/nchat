@@ -44,6 +44,7 @@ public class AMessagePacketProcessor {
 
         if (message.length() > Main.MAX_MESSAGE_LENGTH) {
             eventUser.sendMessage("Your message bigger then " + Main.MAX_MESSAGE_LENGTH + " symbols. Message was cancelled.");
+
             logger.info("User " + eventUser.getNick() + " tried to send message with length bigger then " + Main.MAX_MESSAGE_LENGTH);
             return;
         }

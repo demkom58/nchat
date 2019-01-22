@@ -14,11 +14,13 @@ import java.nio.charset.StandardCharsets;
 @EqualsAndHashCode(callSuper = true)
 public class CAuthPacket extends Packet<CommonPacketProcessor> {
 
-    private final short id = 0;
+    private final short id = 0x00;
     @NotNull private String nick = "Unknown";
     @NotNull private String protocolVersion = Main.PROTOCOL_VERSION;
 
-    public CAuthPacket() {}
+    public CAuthPacket() {
+        // Empty constructor for building this by methods inside.
+    }
 
     public CAuthPacket(@NotNull String nick, @NotNull String protocolVersion) {
         this.nick = nick;
@@ -27,11 +29,13 @@ public class CAuthPacket extends Packet<CommonPacketProcessor> {
 
     public CAuthPacket setNick(@NotNull String nick) {
         this.nick = nick;
+
         return this;
     }
 
     public CAuthPacket setProtocolVersion(@NotNull String protocolVersion) {
         this.protocolVersion = protocolVersion;
+
         return this;
     }
 

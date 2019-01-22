@@ -74,7 +74,8 @@ public class Client extends Application {
 
     public static void start(@NotNull final OptionSet optionSet) {
         launch();
-        getLogger().info("NChat v"+Main.APP_VERSION+" is launching.");
+
+        getLogger().info("NChat v" + Main.APP_VERSION + " is launching.");
     }
 
     public GuiManager getGuiManager() {

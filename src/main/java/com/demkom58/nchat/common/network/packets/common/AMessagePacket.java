@@ -13,10 +13,12 @@ import java.nio.charset.StandardCharsets;
 @EqualsAndHashCode(callSuper = true)
 public class AMessagePacket extends Packet<CommonPacketProcessor> {
 
-    private final short id = 1;
+    private final short id = 0x01;
     @NotNull private String message = "";
 
-    public AMessagePacket() {}
+    public AMessagePacket() {
+        // Empty constructor for building this by methods inside.
+    }
 
     public AMessagePacket(@NotNull String message) {
         this.message = message;

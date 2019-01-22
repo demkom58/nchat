@@ -11,7 +11,7 @@ public class StringUtil {
      * @param sequence CharSequence to calculate the size of.
      * @return Byte-size of sting in UTF-8
      */
-    public static int getUtf8Size(CharSequence sequence) {
+    public static int getUTF8Size(CharSequence sequence) {
         int count = 0;
         for (int i = 0, len = sequence.length(); i < len; i++) {
             char ch = sequence.charAt(i);
@@ -32,19 +32,19 @@ public class StringUtil {
      * @param string String to encode
      * @return Bytes of the String encoded in UTF-8; zero length if null
      */
-    public static byte[] getUtf8Bytes(String string) {
+    public static byte[] getUTF8Bytes(String string) {
         if(string == null) return new byte[] {};
         else return string.getBytes(CharsetUtil.UTF_8);
     }
     
     /**
-     * Opposite of {@link #getUtf8Bytes(String)}
+     * Opposite of {@link #getUTF8Bytes(String)}
      * Returns null if length is zero
      * 
      * @param bytes
      * @return null if length is zero or if input is null
      */
-    public static String getUtf8String(byte[] bytes) {
+    public static String getUTF8String(byte[] bytes) {
         if(bytes == null || bytes.length == 0) {
             return null;
         } else {
