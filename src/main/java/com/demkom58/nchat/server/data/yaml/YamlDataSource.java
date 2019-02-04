@@ -29,7 +29,7 @@ public class YamlDataSource extends DataSource {
 
     @Override
     public Storage get(@NotNull String name) throws Exception {
-        return new YamlStorage(new File(rootFolder + name + YAML_FILE_PREFIX));
+        return new YamlStorage(new File(rootFolder, name + YAML_FILE_PREFIX));
     }
 
     @Override

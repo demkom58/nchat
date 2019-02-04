@@ -43,7 +43,7 @@ public class ServerConfig extends ConfigBase {
     }
 
     @Nullable
-    public SerializedConfig getSerializedConfig() {
+    public SerializedConfig getSerialized() {
         return serializedConfig;
     }
 }

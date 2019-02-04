@@ -8,6 +8,7 @@ import com.demkom58.nchat.common.network.packets.common.ADisconnectPacket;
 import com.demkom58.nchat.common.network.packets.common.AMessagePacket;
 import com.demkom58.nchat.common.network.util.NetworkUtil;
 import com.demkom58.nchat.server.data.config.ServerConfig;
+import com.demkom58.nchat.server.data.config.serialized.SerializedConfig;
 import com.demkom58.nchat.server.network.User;
 import io.netty.channel.Channel;
 import joptsimple.OptionSet;
@@ -23,10 +24,12 @@ import java.util.WeakHashMap;
 
 public class Server extends SocketServer {
     private static Server server;
+    private static SerializedConfig serializedConfig;
 
     private static final Logger LOGGER = LoggerFactory.getLogger("[SERVER]");
     private static final Map<Channel, User> regMap = new WeakHashMap<>();
-    private static ServerConfig serverConfig;
+
+    private final ServerConfig serverConfig;
 
     private final String host;
     private final int port;
@@ -39,7 +42,7 @@ public class Server extends SocketServer {
         this.host = host;
         this.port = port;
 
-        serverConfig = new ServerConfig(new File(Main.SERVER_DATA_PATH + "config.yml"));
+        this.serverConfig = new ServerConfig(new File(Main.SERVER_DATA_PATH, "config.yml"));
 
         this.packetRegistry = new PacketRegistry();
 
@@ -69,12 +72,16 @@ public class Server extends SocketServer {
             getLogger().error("Can't load config !", e);
         }
 
-        try {
-            getLogger().info("Waiting for connections...");
+        if (serverConfig.getSerialized() != null) {
+            serializedConfig = serverConfig.getSerialized();
 
-            bind(new InetSocketAddress(host, port));
-        } finally {
-            stop();
+            try {
+                getLogger().info("Waiting for connections...");
+
+                bind(new InetSocketAddress(host, port));
+            } finally {
+                stop();
+            }
         }
     }
 
@@ -159,8 +166,8 @@ public class Server extends SocketServer {
         return LOGGER;
     }
 
-    public static ServerConfig getServerConfig() {
-        return serverConfig;
+    public static SerializedConfig getSerializedConfig() {
+        return serializedConfig;
     }
 
     public static synchronized void start(OptionSet optionSet) throws Exception {

@@ -1,10 +1,10 @@
 package com.demkom58.nchat.server.network;
 
-import com.demkom58.nchat.Main;
 import com.demkom58.nchat.common.network.IPacketHandlerRegistry;
 import com.demkom58.nchat.common.network.handler.PacketHandler;
 import com.demkom58.nchat.common.network.util.NetworkUtil;
 import com.demkom58.nchat.server.Server;
+import com.demkom58.nchat.server.data.config.serialized.SerializedConfig;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import org.slf4j.Logger;
@@ -23,6 +23,8 @@ public class ServerPacketHandler extends PacketHandler {
     public void handlerAdded(ChannelHandlerContext ctx) throws Exception {
         super.handlerAdded(ctx);
 
+        SerializedConfig config = Server.getSerializedConfig();
+
         Server server = Server.getServer();
         Collection<User> users = server.getUsers();
 
@@ -36,7 +38,7 @@ public class ServerPacketHandler extends PacketHandler {
             if (address.equals(user.getIP()))
                 connections += 1;
 
-            if (connections < Server.getServerConfig().getSerializedConfig().getConnectionsPerIp())
+            if (connections < config.connections_per_ip)
                 continue;
 
             String reason = "Too many connections.";
