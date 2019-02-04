@@ -15,7 +15,7 @@ import java.util.Scanner;
 
 public class DataIP {
 
-    private static final String SRVS = Main.DATA_PATH + "srv.list";
+    private static final String SRVS = Main.CLIENT_DATA_PATH + "srv.list";
 
     public static void saveIP(String ip) {
         try {

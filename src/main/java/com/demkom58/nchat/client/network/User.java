@@ -3,7 +3,6 @@ package com.demkom58.nchat.client.network;
 import org.jetbrains.annotations.NotNull;
 
 public class User {
-
     @NotNull private String name;
     private int messagesSent = 0;
 

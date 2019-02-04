@@ -4,6 +4,7 @@ import com.demkom58.nchat.Main;
 import com.demkom58.nchat.common.network.handler.PacketEncoder;
 import com.demkom58.nchat.common.network.packets.common.AMessagePacket;
 import com.demkom58.nchat.server.Server;
+import com.demkom58.nchat.server.data.config.serialized.SerializedConfig;
 import com.demkom58.nchat.server.network.ServerPacketProcessor;
 import com.demkom58.nchat.server.network.User;
 import io.netty.channel.Channel;
@@ -14,6 +15,8 @@ import java.util.Collection;
 public class AMessagePacketProcessor {
 
     public static void processAMessagePacket(AMessagePacket packet, ServerPacketProcessor spp) {
+        SerializedConfig config = Server.getSerializedConfig();
+
         Logger logger = ServerPacketProcessor.LOGGER;
         Channel channel = spp.getChannel();
 
@@ -40,9 +43,10 @@ public class AMessagePacketProcessor {
             eventUser.sendMessage("[Server] Too many messages in second!");
             return;
         }
-        eventUser.setLastSentMessageTime(System.currentTimeMillis() + (1000 / Main.MESSAGES_PER_SECOND));
 
-        if (message.length() > Main.MAX_MESSAGE_LENGTH) {
+        eventUser.setLastSentMessageTime(System.currentTimeMillis() + (1000 / config.messages_per_second));
+
+        if (message.length() > config.max_messages_length) {
             eventUser.sendMessage("Your message bigger then " + Main.MAX_MESSAGE_LENGTH + " symbols. Message was cancelled.");
 
             logger.info("User " + eventUser.getNick() + " tried to send message with length bigger then " + Main.MAX_MESSAGE_LENGTH);

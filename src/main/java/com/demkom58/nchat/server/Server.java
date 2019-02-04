@@ -7,12 +7,16 @@ import com.demkom58.nchat.common.network.packets.client.CAuthPacket;
 import com.demkom58.nchat.common.network.packets.common.ADisconnectPacket;
 import com.demkom58.nchat.common.network.packets.common.AMessagePacket;
 import com.demkom58.nchat.common.network.util.NetworkUtil;
+import com.demkom58.nchat.server.data.config.ServerConfig;
+import com.demkom58.nchat.server.data.config.serialized.SerializedConfig;
 import com.demkom58.nchat.server.network.User;
 import io.netty.channel.Channel;
 import joptsimple.OptionSet;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.net.InetSocketAddress;
 import java.util.Collection;
 import java.util.Map;
@@ -20,20 +24,25 @@ import java.util.WeakHashMap;
 
 public class Server extends SocketServer {
     private static Server server;
+    private static SerializedConfig serializedConfig;
 
     private static final Logger LOGGER = LoggerFactory.getLogger("[SERVER]");
     private static final Map<Channel, User> regMap = new WeakHashMap<>();
+
+    private final ServerConfig serverConfig;
 
     private final String host;
     private final int port;
 
     private IPacketRegistry packetRegistry;
 
-    private Server(String host, int port) throws Exception {
+    private Server(@NotNull final String host, final int port) {
         super();
 
         this.host = host;
         this.port = port;
+
+        this.serverConfig = new ServerConfig(new File(Main.SERVER_DATA_PATH, "config.yml"));
 
         this.packetRegistry = new PacketRegistry();
 
@@ -45,13 +54,35 @@ public class Server extends SocketServer {
     public void start() {
         getLogger().info("Starting server on {}:{}.", host, port);
 
-        try {
-            getLogger().info("Waiting for connections...");
-            bind(new InetSocketAddress(host, port));
-        } finally {
-            stop();
+        if (!(new File(Main.SERVER_DATA_PATH)).exists())
+            new File(Main.SERVER_DATA_PATH).mkdirs();
+
+        if (!(serverConfig.exists())) {
+            try {
+                serverConfig.create();
+                serverConfig.write();
+            } catch (Exception e) {
+                getLogger().error("Can't create config !", e);
+            }
         }
 
+        try {
+            serverConfig.load();
+        } catch (Exception e) {
+            getLogger().error("Can't load config !", e);
+        }
+
+        if (serverConfig.getSerialized() != null) {
+            serializedConfig = serverConfig.getSerialized();
+
+            try {
+                getLogger().info("Waiting for connections...");
+
+                bind(new InetSocketAddress(host, port));
+            } finally {
+                stop();
+            }
+        }
     }
 
     public User getUser(Channel channel) {
@@ -133,6 +164,10 @@ public class Server extends SocketServer {
 
     public static Logger getLogger() {
         return LOGGER;
+    }
+
+    public static SerializedConfig getSerializedConfig() {
+        return serializedConfig;
     }
 
     public static synchronized void start(OptionSet optionSet) throws Exception {

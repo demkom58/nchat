@@ -28,6 +28,7 @@ public class User {
     public String getNick() {
         return nick;
     }
+
     public Channel getChannel() {
         return channel;
     }
@@ -35,9 +36,11 @@ public class User {
     public String getAddress() {
         return address;
     }
+
     public String getIP() {
         return ip;
     }
+
     public int getPort() {
         return port;
     }
@@ -45,6 +48,7 @@ public class User {
     public long getLastSentMessageTime() {
         return lastSentMessageTime;
     }
+
     public void setLastSentMessageTime(long lastSentMessageTime) {
         this.lastSentMessageTime = lastSentMessageTime;
     }
@@ -52,6 +56,7 @@ public class User {
     public void sendMessage(String message) {
         User.sendMessage(getChannel(), message);
     }
+
     public void sendPacket(IPacket packet) {
         User.sendPacket(getChannel(), packet);
     }
@@ -63,6 +68,7 @@ public class User {
     public static void sendMessage(Channel channel, String message) {
         channel.writeAndFlush(new AMessagePacket(message));
     }
+
     public static void sendPacket(Channel channel, IPacket packet) {
         channel.writeAndFlush(packet);
     }

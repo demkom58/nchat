@@ -26,5 +26,4 @@ public class PacketCodec extends ByteToMessageCodec<IPacket> {
     protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
         decoder.decode(ctx, in, out);
     }
-    
 }
