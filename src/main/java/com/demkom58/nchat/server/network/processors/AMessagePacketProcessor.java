@@ -40,7 +40,7 @@ public class AMessagePacketProcessor {
             eventUser.sendMessage("[Server] Too many messages in second!");
             return;
         }
-        eventUser.setLastSentMessageTime(System.currentTimeMillis() + (1000 / Main.MESSAGES_PER_SECOND));
+        eventUser.setLastSentMessageTime(System.currentTimeMillis() + (1000 / Server.getServerConfig().getSerializedConfig().getMessagesPerSecond()));
 
         if (message.length() > Main.MAX_MESSAGE_LENGTH) {
             eventUser.sendMessage("Your message bigger then " + Main.MAX_MESSAGE_LENGTH + " symbols. Message was cancelled.");

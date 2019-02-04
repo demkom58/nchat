@@ -36,7 +36,7 @@ public class ServerPacketHandler extends PacketHandler {
             if (address.equals(user.getIP()))
                 connections += 1;
 
-            if (connections < Main.CONNECTIONS_PER_IP)
+            if (connections < Server.getServerConfig().getSerializedConfig().getConnectionsPerIp())
                 continue;
 
             String reason = "Too many connections.";
