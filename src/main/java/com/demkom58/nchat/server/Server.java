@@ -7,6 +7,8 @@ import com.demkom58.nchat.common.network.packets.client.CAuthPacket;
 import com.demkom58.nchat.common.network.packets.common.ADisconnectPacket;
 import com.demkom58.nchat.common.network.packets.common.AMessagePacket;
 import com.demkom58.nchat.common.network.util.NetworkUtil;
+import com.demkom58.nchat.server.data.config.ServerConfig;
+import com.demkom58.nchat.server.data.config.serialized.SerializedConfig;
 import com.demkom58.nchat.server.network.User;
 import io.netty.channel.Channel;
 import joptsimple.OptionSet;
