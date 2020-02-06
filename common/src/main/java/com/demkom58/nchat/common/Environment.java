@@ -4,7 +4,6 @@ import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class Environment {
-    public static final String HOST = "localhost";
     public static final int PORT = 55555;
 
     public static final String PROTOCOL_VERSION = "1.2b4";
