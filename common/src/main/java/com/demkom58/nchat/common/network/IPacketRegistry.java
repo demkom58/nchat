@@ -11,7 +11,11 @@ import com.demkom58.nchat.common.network.processing.IPacketProcessor;
  * @see IPacketProcessor
  */
 public interface IPacketRegistry {
-    void registerPacket(Class<? extends IPacket> packetClass);
-    IPacket getNewPacketInstance(short packetId);
+
+    void registerPacket(Class<? extends IPacket<?>> packetClass);
+
+    IPacket<?> getNewPacketInstance(short packetId);
+
     boolean isIdRegistered(short packetId);
+
 }

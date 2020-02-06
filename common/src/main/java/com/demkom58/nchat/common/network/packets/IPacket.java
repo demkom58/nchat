@@ -51,7 +51,7 @@ public interface IPacket<PACKET_PROCESSOR extends IPacketProcessor> {
     
     /**
      * Decodes the contents of the {@link ByteBuf} back into a packet. It is the
-     * revese operation of {@link #pack(ByteBuf)}. You need to make sure that
+     * reverse operation of {@link #pack(ByteBuf)}. You need to make sure that
      * the contents are decoded in the same order as they are encoded!
      * 
      * @param buffer where the contents of the network are stored
@@ -62,10 +62,10 @@ public interface IPacket<PACKET_PROCESSOR extends IPacketProcessor> {
     
     /**
      * When a packet is decoded this method is called. It needs to call
-     * its apropriate processing method that is defined in the {@link IPacketProcessor}.
+     * its appropriate processing method that is defined in the {@link IPacketProcessor}.
      * 
-     * @param packetProcessor the {@link IPacketProcessor} with an apropriate
-     * mehtod for this packet
+     * @param packetProcessor the {@link IPacketProcessor} with an appropriate
+     * method for this packet
      * 
      * @see IPacketProcessor
      */

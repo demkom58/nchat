@@ -15,13 +15,13 @@ public class GuiStyleLoader {
 
     public GuiStyleLoader() { }
 
-    public @NotNull FXMLLoader getFXMLLoaderAndExport(@NotNull final Class resourceAccessor,
+    public @NotNull FXMLLoader getFXMLLoaderAndExport(@NotNull final Class<?> resourceAccessor,
                                                       @NotNull final String fxmlPath,
                                                       @NotNull final String remotePath) throws Exception {
         return new FXMLLoader(exportResource(resourceAccessor, fxmlPath, remotePath).toURI().toURL());
     }
 
-    public @NotNull File exportResource(@NotNull final Class resourceAccessor,
+    public @NotNull File exportResource(@NotNull final Class<?> resourceAccessor,
                                         @NotNull final String localPath,
                                         @NotNull final String remotePath) throws Exception {
 
@@ -35,7 +35,7 @@ public class GuiStyleLoader {
         return remoteResource;
     }
 
-    private void exportResource(@NotNull final Class resourceAccessor,
+    private void exportResource(@NotNull final Class<?> resourceAccessor,
                                 @NotNull final String localPath,
                                 @NotNull final File distFile) throws Exception {
 

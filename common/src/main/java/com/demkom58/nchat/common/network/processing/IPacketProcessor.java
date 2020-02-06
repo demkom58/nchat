@@ -18,5 +18,5 @@ import com.demkom58.nchat.common.network.packets.IPacket;
  * @see IPacket
  */
 public interface IPacketProcessor {
-    public void sendPacket(IPacket packet);
+    void sendPacket(IPacket<?> packet);
 }

@@ -8,7 +8,7 @@ import io.netty.util.ReferenceCountUtil;
 
 import java.nio.charset.StandardCharsets;
 
-public class PacketEncoder extends MessageToByteEncoder<IPacket> {
+public class PacketEncoder extends MessageToByteEncoder<IPacket<?>> {
 
     private static final String FRAME_SYMBOL = "\u2302";
     private static final byte[] SYMBOL_BYTES = FRAME_SYMBOL.getBytes(StandardCharsets.UTF_8);
@@ -21,7 +21,7 @@ public class PacketEncoder extends MessageToByteEncoder<IPacket> {
     }
 
     @Override
-    protected void encode(ChannelHandlerContext ctx, IPacket packet, ByteBuf out) throws Exception {
+    protected void encode(ChannelHandlerContext ctx, IPacket packet, ByteBuf out) {
         int packetSize = packet.getPayloadSize();
         out.writeShort(packet.getId());
         out.writeShort(packetSize);

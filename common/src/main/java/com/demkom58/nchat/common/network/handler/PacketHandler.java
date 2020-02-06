@@ -17,7 +17,7 @@ public class PacketHandler extends ChannelInboundHandlerAdapter {
         this.packetProcessorRegistry = packetProcessorRegistry;
     }
     
-    public void writePacket(IPacket packet) {
+    public void writePacket(IPacket<?> packet) {
         channel.write(packet);
     }
     

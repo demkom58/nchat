@@ -21,13 +21,12 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class ClientMessenger extends SocketClient {
     private static final Logger LOGGER = LoggerFactory.getLogger("[CLIENT]");
 
-    private static LinkedBlockingQueue<String> messagesQueue = new LinkedBlockingQueue<>();
+    private static final LinkedBlockingQueue<String> messagesQueue = new LinkedBlockingQueue<>();
     private static ClientMessenger clientMessenger;
     private static boolean work;
 
-    private IPacketRegistry packetRegistry;
-
-    private InetSocketAddress address;
+    private final IPacketRegistry packetRegistry;
+    private final InetSocketAddress address;
 
     public ClientMessenger(@NotNull final InetSocketAddress host) {
         super();
@@ -69,7 +68,7 @@ public class ClientMessenger extends SocketClient {
         return packetRegistry;
     }
 
-    public ChannelFuture sendPacket(Packet packet) {
+    public ChannelFuture sendPacket(Packet<?> packet) {
         if (getChannel() == null)
             return null;
 
