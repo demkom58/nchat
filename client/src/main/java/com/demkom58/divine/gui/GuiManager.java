@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.Objects;
 
 public class GuiManager {
-    private Map<Class<? extends GuiController>, Triple<AnchorPane, Scene, ? extends GuiController>> guiMap = new HashMap<>();
+    private final Map<Class<? extends GuiController>, Triple<AnchorPane, Scene, ? extends GuiController>> guiMap = new HashMap<>();
 
     @NotNull private final Stage stage;
 

@@ -5,14 +5,14 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.MultipleSelectionModel;
 import javafx.scene.input.MouseEvent;
 
 import java.util.Objects;
 
 public class ListController extends NGuiController {
 
-    @FXML private ListView ipList;
+    @FXML private ListView<String> ipList;
     @FXML private Label selectButton;
     @FXML private Label deleteButton;
 
@@ -21,16 +21,17 @@ public class ListController extends NGuiController {
      */
     @FXML
     public void onSelect(MouseEvent event) {
-        LoginController loginController = Objects.requireNonNull(getGuiManager().getController(LoginController.class));
-        TextField ipField = loginController.getIpField();
+        final LoginController loginController = Objects.requireNonNull(getGuiManager().getController(LoginController.class));
 
-        ObservableList list = getIpList().getSelectionModel().getSelectedItems();
-        if(list.isEmpty()) {
+        final MultipleSelectionModel<String> selectionModel = ipList.getSelectionModel();
+        final ObservableList<String> list = selectionModel.getSelectedItems();
+
+        if (list.isEmpty()) {
             getGuiManager().setGui(loginController);
             return;
         }
 
-        ipField.setText((String)getIpList().getSelectionModel().getSelectedItems().get(0));
+        loginController.getIpField().setText(selectionModel.getSelectedItems().get(0));
         getGuiManager().setGui(loginController);
     }
 
@@ -39,12 +40,12 @@ public class ListController extends NGuiController {
      */
     @FXML
     public void onRemove(MouseEvent event) {
-        getIpList().getItems().remove(getIpList().getSelectionModel().getSelectedItems().get(0));
-        getIpList().refresh();
-        DataIP.saveIPList(getIpList().getItems());
+        ipList.getItems().remove(ipList.getSelectionModel().getSelectedItems().get(0));
+        ipList.refresh();
+        DataIP.saveIPList(ipList.getItems());
     }
 
-    public ListView getIpList() {
+    public ListView<String> getIpList() {
         return ipList;
     }
 

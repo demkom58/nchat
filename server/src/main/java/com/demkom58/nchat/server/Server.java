@@ -28,10 +28,9 @@ public class Server extends SocketServer {
     private static final Map<Channel, User> regMap = new WeakHashMap<>();
 
     private final InetSocketAddress address;
+    private final IPacketRegistry packetRegistry;
 
-    private IPacketRegistry packetRegistry;
-
-    private Server(@NotNull final InetSocketAddress address) throws Exception {
+    private Server(@NotNull final InetSocketAddress address) {
         super();
 
         this.address = address;

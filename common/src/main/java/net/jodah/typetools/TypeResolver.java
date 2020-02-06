@@ -40,7 +40,7 @@ public final class TypeResolver {
     private static Method GET_CONSTANT_POOL;
     private static Method GET_CONSTANT_POOL_SIZE;
     private static Method GET_CONSTANT_POOL_METHOD_AT;
-    private static final Map<String, Method> OBJECT_METHODS = new HashMap<String, Method>();
+    private static final Map<String, Method> OBJECT_METHODS = new HashMap<>();
     private static final Map<Class<?>, Class<?>> PRIMITIVE_WRAPPERS;
     private static final Double JAVA_VERSION;
 
@@ -80,7 +80,7 @@ public final class TypeResolver {
         } catch (Exception ignore) {
         }
 
-        Map<Class<?>, Class<?>> types = new HashMap<Class<?>, Class<?>>();
+        Map<Class<?>, Class<?>> types = new HashMap<>();
         types.put(boolean.class, Boolean.class);
         types.put(byte.class, Byte.class);
         types.put(char.class, Character.class);
@@ -280,7 +280,7 @@ public final class TypeResolver {
         Map<TypeVariable<?>, Type> map = ref != null ? ref.get() : null;
 
         if (map == null) {
-            map = new HashMap<TypeVariable<?>, Type>();
+            map = new HashMap<>();
 
             // Populate lambdas
             if (functionalInterface != null)
@@ -312,7 +312,7 @@ public final class TypeResolver {
             }
 
             if (CACHE_ENABLED)
-                TYPE_VARIABLE_CACHE.put(targetType, new WeakReference<Map<TypeVariable<?>, Type>>(map));
+                TYPE_VARIABLE_CACHE.put(targetType, new WeakReference<>(map));
         }
 
         return map;

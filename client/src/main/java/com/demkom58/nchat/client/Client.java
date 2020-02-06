@@ -29,7 +29,7 @@ public class Client extends Application {
 
     private static Client client;
 
-    private GuiStyleLoader styleLoader = new GuiStyleLoader();
+    private final GuiStyleLoader styleLoader = new GuiStyleLoader();
     private GuiManager guiManager;
     private User user;
 

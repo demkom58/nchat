@@ -36,8 +36,8 @@ public class LoginController extends NGuiController {
         if (controller == null)
             throw new NullPointerException("List controller not found!");
 
-        final ObservableList ips = controller.getIpList().getItems();
-        if(ips != null) {
+        final ObservableList<String> ips = controller.getIpList().getItems();
+        if (ips != null) {
             ips.clear();
             ips.addAll(DataIP.loadIPList());
         }
@@ -49,7 +49,7 @@ public class LoginController extends NGuiController {
      * Join button pressed.
      */
     @FXML
-    public void onJoin(MouseEvent event){
+    public void onJoin(MouseEvent event) {
         login();
     }
 
@@ -58,18 +58,19 @@ public class LoginController extends NGuiController {
      */
     @FXML
     public void onEnter(KeyEvent event) {
-        if(event.getCode().equals(KeyCode.ENTER)) login();
+        if (event.getCode().equals(KeyCode.ENTER))
+            login();
     }
 
     private void login() {
         String nick = loginField.getText();
         String voidName = nick.replace(" ", "");
-        String fs = PacketEncoder.getFrameSymbol();
+        String frameSymbol = PacketEncoder.getFrameSymbol();
 
-        if(nick.contains(fs))
-            loginField.setText(nick.replace(fs, ""));
+        if (nick.contains(frameSymbol))
+            loginField.setText(nick.replace(frameSymbol, ""));
 
-        if(nick.length() == 0 || nick.length() > 16 || voidName.length() == 0)
+        if (nick.length() == 0 || nick.length() > 16 || voidName.length() == 0)
             return;
 
         Client.getClient().setUser(new User(nick));
@@ -94,9 +95,13 @@ public class LoginController extends NGuiController {
                 ClientMessenger.setup(serverAddress);
                 try {
                     ClientMessenger.getClientMessenger().run();
-                } catch (Exception e) { e.printStackTrace(); }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }).start();
-        } catch (Exception e) { e.printStackTrace(); }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public Label getListButton() {

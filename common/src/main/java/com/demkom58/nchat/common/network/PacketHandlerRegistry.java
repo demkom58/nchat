@@ -32,11 +32,11 @@ public class PacketHandlerRegistry implements IPacketHandlerRegistry {
         return packetProcessor;
     }
     
-    private IPacketProcessor findPacketProcessorForPacket(IPacket packet) {
+    private IPacketProcessor findPacketProcessorForPacket(IPacket<?> packet) {
         final Type type = TypeResolver.resolveRawArgument(IPacket.class, packet.getClass());
 
         for(IPacketProcessor packetProcessor : packetProcessors) {
-            if(((Class)type).isAssignableFrom(packetProcessor.getClass()))
+            if(((Class<?>)type).isAssignableFrom(packetProcessor.getClass()))
                 return packetProcessor;
         }
 

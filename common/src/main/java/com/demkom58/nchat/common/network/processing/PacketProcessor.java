@@ -16,7 +16,7 @@ public class PacketProcessor implements IPacketProcessor {
     }
     
     @Override
-    public void sendPacket(IPacket packet) {
+    public void sendPacket(IPacket<?> packet) {
         channel.writeAndFlush(packet);
     }
 

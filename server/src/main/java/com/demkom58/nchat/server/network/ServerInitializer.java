@@ -16,7 +16,7 @@ import io.netty.handler.codec.compression.ZlibWrapper;
 public class ServerInitializer extends ChannelInitializer<SocketChannel> {
 
     @Override
-    public void initChannel(SocketChannel ch) throws Exception {
+    public void initChannel(SocketChannel ch) {
         IPacketHandlerRegistry packetProcessorRegistry = new PacketHandlerRegistry();
         packetProcessorRegistry.registerPacketProcessor(new ServerPacketProcessor(ch));
 
