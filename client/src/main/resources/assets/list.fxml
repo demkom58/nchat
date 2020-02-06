@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<AnchorPane prefHeight="333.0" prefWidth="257.0" styleClass="transparent" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.demkom58.nchat.client.gui.ListController">
+    <children>
+        <AnchorPane prefHeight="50.0" prefWidth="257.0" styleClass="header">
+            <children>
+                <Label fx:id="close" alignment="CENTER" contentDisplay="CENTER" layoutX="209.0" onMouseClicked="#onClose" prefHeight="50.0" prefWidth="48.0" styleClass="close-button" text="X" textAlignment="CENTER" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="32.0" />
+                    </font>
+                </Label>
+                <Label fx:id="helloLabel" layoutX="9.0" layoutY="7.0" prefHeight="36.0" prefWidth="192.0" text="HELLO GUEST!" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="20.0" />
+                    </font>
+                </Label>
+            </children>
+        </AnchorPane>
+        <AnchorPane layoutY="57.0" prefHeight="276.0" prefWidth="257.0" styleClass="body">
+            <children>
+                <Label alignment="CENTER" layoutY="250.0" prefHeight="26.0" prefWidth="257.0" styleClass="author" text="DEVELOPED BY DEMKOM58" textFill="WHITE" />
+                <Label fx:id="selectButton" alignment="CENTER" layoutX="1.0" layoutY="198.0" onMouseClicked="#onSelect" prefHeight="44.0" prefWidth="127.0" styleClass="button" text="SELECT" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="19.0" />
+                    </font>
+                </Label>
+                <Label alignment="CENTER" prefHeight="26.0" prefWidth="257.0" styleClass="auth-h1" text="SAVED IPS" textFill="WHITE" />
+            <ListView fx:id="ipList" layoutY="26.0" prefHeight="172.0" prefWidth="257.0" styleClass="input" />
+            <Label fx:id="deleteButton" alignment="CENTER" layoutX="129.0" layoutY="198.0" onMouseClicked="#onRemove" prefHeight="44.0" prefWidth="127.0" styleClass="button" text="DELETE" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="19.0" />
+               </font>
+            </Label>
+            </children>
+        </AnchorPane>
+        <AnchorPane layoutY="65.0" prefHeight="36.0" prefWidth="257.0" />
+    </children>
+</AnchorPane>
