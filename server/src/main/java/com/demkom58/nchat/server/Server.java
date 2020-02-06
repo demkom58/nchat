@@ -12,6 +12,7 @@ import io.netty.channel.Channel;
 import io.netty.util.internal.logging.InternalLoggerFactory;
 import io.netty.util.internal.logging.Slf4JLoggerFactory;
 import joptsimple.OptionSet;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,17 +27,14 @@ public class Server extends SocketServer {
     private static final Logger LOGGER = LoggerFactory.getLogger("[SERVER]");
     private static final Map<Channel, User> regMap = new WeakHashMap<>();
 
-    private final String host;
-    private final int port;
+    private final InetSocketAddress address;
 
     private IPacketRegistry packetRegistry;
 
-    private Server(String host, int port) throws Exception {
+    private Server(@NotNull final InetSocketAddress address) throws Exception {
         super();
 
-        this.host = host;
-        this.port = port;
-
+        this.address = address;
         this.packetRegistry = new PacketRegistry();
 
         this.packetRegistry.registerPacket(CAuthPacket.class);
@@ -46,11 +44,11 @@ public class Server extends SocketServer {
 
     public void start() {
         InternalLoggerFactory.setDefaultFactory(Slf4JLoggerFactory.INSTANCE);
-        getLogger().info("Starting server on {}:{}.", host, port);
+        getLogger().info("Starting server on {}:{}.", address.getHostName(), address.getPort());
 
         try {
             getLogger().info("Waiting for connections...");
-            bind(new InetSocketAddress(host, port));
+            bind(address);
         } finally {
             stop();
         }
@@ -141,13 +139,17 @@ public class Server extends SocketServer {
 
         String host = optionSet.has("host")
                 ? (String) optionSet.valueOf("host")
-                : Environment.HOST;
+                : null;
 
         int port = optionSet.has("port")
                 ? Integer.parseInt((String) optionSet.valueOf("port"))
                 : Environment.PORT;
 
-        server = new Server(host, port);
+        InetSocketAddress address = host == null
+                ? new InetSocketAddress(port)
+                : new InetSocketAddress(host, port);
+
+        server = new Server(address);
         server.start();
     }
 
