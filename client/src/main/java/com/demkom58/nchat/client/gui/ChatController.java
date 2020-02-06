@@ -88,7 +88,7 @@ public class ChatController extends NGuiController {
         Platform.runLater(() -> getMessageArea().clear());
     }
 
-    public ListView getMessagesView() {
+    public ListView<String> getMessagesView() {
         return messagesView;
     }
 

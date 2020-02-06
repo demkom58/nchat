@@ -22,7 +22,7 @@ public class User {
 
         this.address = NetworkUtil.getAddress(channel);
         this.ip = address.split(":")[0];
-        this.port = Integer.valueOf(address.split(":")[1]);
+        this.port = Integer.parseInt(address.split(":")[1]);
     }
 
     public String getNick() {
@@ -52,7 +52,7 @@ public class User {
     public void sendMessage(String message) {
         User.sendMessage(getChannel(), message);
     }
-    public void sendPacket(IPacket packet) {
+    public void sendPacket(IPacket<?> packet) {
         User.sendPacket(getChannel(), packet);
     }
 
@@ -63,7 +63,7 @@ public class User {
     public static void sendMessage(Channel channel, String message) {
         channel.writeAndFlush(new AMessagePacket(message));
     }
-    public static void sendPacket(Channel channel, IPacket packet) {
+    public static void sendPacket(Channel channel, IPacket<?> packet) {
         channel.writeAndFlush(packet);
     }
 }

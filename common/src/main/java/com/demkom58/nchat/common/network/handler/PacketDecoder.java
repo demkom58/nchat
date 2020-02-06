@@ -10,16 +10,16 @@ import java.util.List;
 
 public class PacketDecoder extends ByteToMessageDecoder {
     private final IPacketRegistry packetRegistry;
-    
-    private IPacket prototype = null;
+
+    private IPacket<?> prototype = null;
     private short packetSize = -1;
-    
+
     public PacketDecoder(IPacketRegistry packetRegistry) {
         this.packetRegistry = packetRegistry;
     }
-    
+
     @Override
-    protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
+    protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) {
         isPacketPrototypeReady(in);
         isPacketSizeReady(in);
 
@@ -30,15 +30,15 @@ public class PacketDecoder extends ByteToMessageDecoder {
             packetSize = -1;
         }
     }
-    
+
     private void buildAndPassPacket(ByteBuf in, List<Object> out) {
         prototype.unpack(in);
         out.add(prototype);
     }
-    
+
     private boolean isPacketPrototypeReady(ByteBuf in) {
-        if(prototype == null) {
-            if(in.readableBytes() >= 1) {
+        if (prototype == null) {
+            if (in.readableBytes() >= 1) {
                 prototype = packetRegistry.getNewPacketInstance(in.readShort());
             } else {
                 return false;
@@ -46,10 +46,10 @@ public class PacketDecoder extends ByteToMessageDecoder {
         }
         return true;
     }
-    
+
     private boolean isPacketSizeReady(ByteBuf in) {
-        if(packetSize == -1) {
-            if(in.readableBytes() >= 2) {
+        if (packetSize == -1) {
+            if (in.readableBytes() >= 2) {
                 packetSize = in.readShort();
             } else {
                 return false;

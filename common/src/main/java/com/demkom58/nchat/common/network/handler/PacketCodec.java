@@ -8,7 +8,7 @@ import io.netty.handler.codec.ByteToMessageCodec;
 
 import java.util.List;
 
-public class PacketCodec extends ByteToMessageCodec<IPacket> {
+public class PacketCodec extends ByteToMessageCodec<IPacket<?>> {
     private final PacketEncoder encoder;
     private final PacketDecoder decoder;
     

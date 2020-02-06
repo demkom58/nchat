@@ -2,12 +2,14 @@ package com.demkom58.nchat.common.network.util;
 
 import io.netty.util.CharsetUtil;
 
+import java.util.Objects;
+
 public class StringUtil {
     /**
      * Calculates the byte-size of a string in UTF-8 encoding.
      * Thanks to
      * <a href="http://stackoverflow.com/questions/8511490/calculating-length-in-utf-8-of-java-string-without-actually-encoding-it">McDowell</a>
-     * 
+     *
      * @param sequence CharSequence to calculate the size of.
      * @return Byte-size of sting in UTF-8
      */
@@ -24,38 +26,37 @@ public class StringUtil {
         }
         return count;
     }
-    
+
     /**
      * Gets the bytes of a String encoded in UTF-8. If the String is null,
      * a byte[] with the length of zero is returned.
-     * 
+     *
      * @param string String to encode
      * @return Bytes of the String encoded in UTF-8; zero length if null
      */
     public static byte[] getUtf8Bytes(String string) {
-        if(string == null) return new byte[] {};
+        if (string == null) return new byte[]{};
         else return string.getBytes(CharsetUtil.UTF_8);
     }
-    
+
     /**
      * Opposite of {@link #getUtf8Bytes(String)}
      * Returns null if length is zero
-     * 
-     * @param bytes
+     *
+     * @param bytes string in bytes
      * @return null if length is zero or if input is null
      */
     public static String getUtf8String(byte[] bytes) {
-        if(bytes == null || bytes.length == 0) {
+        if (bytes == null || bytes.length == 0)
             return null;
-        } else {
-            return new String(bytes, CharsetUtil.UTF_8);
-        }
+
+        return new String(bytes, CharsetUtil.UTF_8);
     }
-    
+
     public static boolean compare(String str1, String str2) {
-        return (str1 == null ? str2 == null : str1.equals(str2));
+        return (Objects.equals(str1, str2));
     }
-    
+
     private StringUtil() {
     }
 }
