@@ -24,16 +24,14 @@ public class Server extends SocketServer {
     private static final Logger LOGGER = LoggerFactory.getLogger("[SERVER]");
     private static final Map<Channel, User> regMap = new WeakHashMap<>();
 
-    private final String host;
-    private final int port;
+    private final InetSocketAddress address;
 
     private IPacketRegistry packetRegistry;
 
-    private Server(String host, int port) throws Exception {
+    private Server(InetSocketAddress address) throws Exception {
         super();
 
-        this.host = host;
-        this.port = port;
+        this.address = address;
 
         this.packetRegistry = new PacketRegistry();
 
@@ -43,11 +41,11 @@ public class Server extends SocketServer {
     }
 
     public void start() {
-        getLogger().info("Starting server on {}:{}.", host, port);
+        getLogger().info("Starting server on {}:{}.", address.getAddress(), address.getPort());
 
         try {
             getLogger().info("Waiting for connections...");
-            bind(new InetSocketAddress(host, port));
+            bind(address);
         } finally {
             stop();
         }
@@ -138,13 +136,15 @@ public class Server extends SocketServer {
 
         String host = optionSet.has("host")
                 ? (String) optionSet.valueOf("host")
-                : Main.HOST;
+                : null;
 
         int port = optionSet.has("port")
-                ? Integer.valueOf((String) optionSet.valueOf("port"))
+                ? Integer.parseInt((String) optionSet.valueOf("port"))
                 : Main.PORT;
 
-        server = new Server(host, port);
+        InetSocketAddress address = host == null ? new InetSocketAddress(port) : new InetSocketAddress(host, port);
+
+        server = new Server(address);
         server.start();
     }
 
