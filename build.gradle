@@ -1,0 +1,42 @@
+plugins {
+    id 'java'
+    id 'idea'
+    id 'application'
+    id "io.freefair.lombok" version "4.1.6"
+}
+
+mainClassName = "com.demkom58.nchat.Main"
+
+compileJava.options.encoding = "UTF-8"
+compileTestJava.options.encoding = "UTF-8"
+
+compileJava {
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    // Network
+    compile 'io.netty:netty-transport:4.1.45.Final'
+    compile 'io.netty:netty-codec:4.1.45.Final'
+    compile 'io.netty:netty-transport-native-epoll:4.1.45.Final'
+    compile 'io.netty:netty-transport-native-kqueue:4.1.45.Final'
+
+    // Option string parser
+    compile 'net.sf.jopt-simple:jopt-simple:5.0.4'
+
+    // Logging
+    compile 'org.slf4j:slf4j-log4j12:1.7.25'
+    compile ('com.jcabi:jcabi-log:0.18') {
+        exclude group: 'org.slf4j', module: 'slf4j-api'
+    }
+
+    // Common
+    compile 'org.jetbrains:annotations:18.0.0'
+}
+
+generateLombokConfig.enabled = false
