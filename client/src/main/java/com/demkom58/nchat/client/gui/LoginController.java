@@ -15,7 +15,9 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
+import java.net.InetSocketAddress;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 public class LoginController extends NGuiController {
 
@@ -78,12 +80,18 @@ public class LoginController extends NGuiController {
         chatController.getMessagesView().refresh();
         getGuiManager().setGui(chatController);
 
-        final String ip = getIpField().getText().isEmpty() ? Environment.STANDARD_IP : getIpField().getText();
-        DataIP.saveIP(ip);
+        String fullIp = ipField.getText().isEmpty() ? Environment.STANDARD_IP : ipField.getText();
+        String[] split = fullIp.split(Pattern.quote(":"));
+        InetSocketAddress serverAddress = new InetSocketAddress(
+                split[0],
+                split.length < 2 ? Environment.PORT : Integer.parseInt(split[1])
+        );
+
+        DataIP.saveIP(fullIp);
 
         try {
             new Thread(() -> {
-                ClientMessenger.setup(ip, Environment.PORT);
+                ClientMessenger.setup(serverAddress);
                 try {
                     ClientMessenger.getClientMessenger().run();
                 } catch (Exception e) { e.printStackTrace(); }
