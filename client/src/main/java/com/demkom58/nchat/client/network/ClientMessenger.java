@@ -11,6 +11,7 @@ import com.demkom58.nchat.common.network.packets.common.AMessagePacket;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,15 +27,12 @@ public class ClientMessenger extends SocketClient {
 
     private IPacketRegistry packetRegistry;
 
-    private String host;
-    private int port;
+    private InetSocketAddress address;
 
-    public ClientMessenger(String host, int port) {
+    public ClientMessenger(@NotNull final InetSocketAddress host) {
         super();
 
-        this.host = host;
-        this.port = port;
-
+        this.address = host;
         this.packetRegistry = new PacketRegistry();
 
         this.packetRegistry.registerPacket(CAuthPacket.class);
@@ -48,7 +46,7 @@ public class ClientMessenger extends SocketClient {
 
         try {
             User user = Client.getClient().getUser();
-            connect(new InetSocketAddress(host, port));
+            connect(address);
 
             //Send register packet
             sendPacket(new CAuthPacket(user.getName(), Environment.PROTOCOL_VERSION));
@@ -82,12 +80,8 @@ public class ClientMessenger extends SocketClient {
         messagesQueue.offer(message);
     }
 
-    public int getServerPort() {
-        return port;
-    }
-
-    public String getServerHost() {
-        return host;
+    public InetSocketAddress getAddress() {
+        return address;
     }
 
     public static ClientMessenger getClientMessenger() {
@@ -98,8 +92,8 @@ public class ClientMessenger extends SocketClient {
         work = false;
     }
 
-    public static void setup(String host, int port) {
-        ClientMessenger.clientMessenger = new ClientMessenger(host, port);
+    public static void setup(@NotNull final InetSocketAddress address) {
+        ClientMessenger.clientMessenger = new ClientMessenger(address);
     }
 
     public static Logger getLogger() {
