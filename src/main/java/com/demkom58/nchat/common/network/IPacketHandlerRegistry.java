@@ -4,10 +4,10 @@ import com.demkom58.nchat.common.network.packets.IPacket;
 import com.demkom58.nchat.common.network.processing.IPacketProcessor;
 
 /**
- * Here, {@link IPacketProcessor}s can be registerd to be available for
+ * Here, {@link IPacketProcessor}s can be registered to be available for
  * processing decoded {@link IPacket}s.
  * Every {@link io.netty.channel.Channel} needs its own Registry because most
- * network depend/opereate on their {@link io.netty.channel.Channel}.
+ * network depend/operate on their {@link io.netty.channel.Channel}.
  * 
  * @see io.netty.channel.Channel
  * @see IPacket
@@ -21,7 +21,7 @@ public interface IPacketHandlerRegistry {
      * specific {@link IPacket}
      * 
      * @param packet a {@link IPacket} to get the {@link IPacketProcessor} for
-     * @return the apropriate {@link IPacketProcessor}
+     * @return the appropriate {@link IPacketProcessor}
      */
     IPacketProcessor getPacketProcessorFor(IPacket packet);
 }

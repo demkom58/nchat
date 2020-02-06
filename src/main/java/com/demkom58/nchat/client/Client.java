@@ -36,7 +36,7 @@ public class Client extends Application {
         guiManager = new GuiManager(stage);
         final File[] files = new File(Main.STYLES_PATH).listFiles();
 
-        if(!styleLoader.checkStyleVersion(Main.DATA_PATH, Main.STYLING_VERSION) && files != null)
+        if(!styleLoader.checkStyleVersion(Main.CLIENT_DATA_PATH, Main.STYLING_VERSION) && files != null)
             for(File file : files) file.delete();
 
         styleLoader.exportResource(Main.class, "/assets/css/style.css", Main.STYLES_PATH);
@@ -74,7 +74,8 @@ public class Client extends Application {
 
     public static void start(@NotNull final OptionSet optionSet) {
         launch();
-        getLogger().info("NChat v"+Main.APP_VERSION+" is launching.");
+
+        getLogger().info("NChat v" + Main.APP_VERSION + " is launching.");
     }
 
     public GuiManager getGuiManager() {

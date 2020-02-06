@@ -14,6 +14,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
@@ -78,12 +79,15 @@ public class LoginController extends NGuiController {
         chatController.getMessagesView().refresh();
         getGuiManager().setGui(chatController);
 
-        final String ip = getIpField().getText().isEmpty() ? Main.STANDARD_IP : getIpField().getText();
-        DataIP.saveIP(ip);
+        final String fullIP = getIpField().getText().isEmpty() ? Main.STANDARD_IP : getIpField().getText();
+        final int port = fullIP.split(":").length == 2 ? Integer.parseInt(fullIP.split(":")[1]) : Main.PORT;
+        final String ip = fullIP.replace(":" + port, "");
+
+        DataIP.saveIP(fullIP);
 
         try {
             new Thread(() -> {
-                ClientMessenger.setup(ip, Main.PORT);
+                ClientMessenger.setup(ip, port);
                 try {
                     ClientMessenger.getClientMessenger().run();
                 } catch (Exception e) { e.printStackTrace(); }
@@ -107,7 +111,7 @@ public class LoginController extends NGuiController {
         return ipField;
     }
 
-    public void updateGuiNick(String nick) {
+    public void updateGuiNick(@NotNull final String nick) {
         final String greeting = "HELLO " + nick.toUpperCase();
 
         getGuiManager().getGuiMap().values().forEach(e -> {
@@ -115,7 +119,6 @@ public class LoginController extends NGuiController {
 
             if (controller instanceof NGuiController)
                 ((NGuiController) controller).getHelloLabel().setText(greeting);
-
         });
     }
 

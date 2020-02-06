@@ -20,10 +20,10 @@ public class Main {
     public static final int MAX_MESSAGE_LENGTH = 1000;
     public static final String STANDARD_IP = "localhost";
 
-    public static final int CONNECTIONS_PER_IP = 3;
-    public static final int MESSAGES_PER_SECOND = 3;
     public static final String DATA_PATH = System.getenv("APPDATA") + "/NChat/";
-    public static final String STYLES_PATH = DATA_PATH + "styles/";
+    public static final String CLIENT_DATA_PATH = DATA_PATH + "/client/";
+    public static final String SERVER_DATA_PATH = DATA_PATH + "/server/";
+    public static final String STYLES_PATH = CLIENT_DATA_PATH + "styles/";
 
     public static void main(String[] args) throws Exception {
         InternalLoggerFactory.setDefaultFactory(Slf4JLoggerFactory.INSTANCE);
@@ -41,7 +41,6 @@ public class Main {
             startServer(optionSet);
         else
             startClient(optionSet);
-
     }
 
     private static void startClient(OptionSet optionSet) {
@@ -51,5 +50,4 @@ public class Main {
     private static void startServer(OptionSet optionSet) throws Exception {
         Server.start(optionSet);
     }
-
 }

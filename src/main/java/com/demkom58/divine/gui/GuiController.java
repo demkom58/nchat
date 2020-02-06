@@ -14,7 +14,10 @@ public abstract class GuiController {
     private AnchorPane pane;
     private GuiManager guiManager;
 
-    public void init() { }
+    public void init() {
+        // Empty initialization, lol ?
+        // Why not ?
+    }
 
     public void setScene(@NotNull final Scene scene) {
         this.scene = scene;

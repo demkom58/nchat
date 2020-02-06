@@ -25,12 +25,14 @@ public abstract class ReferenceCountedPacket<PACKET_PROCESSOR extends IPacketPro
     @Override
     public ReferenceCounted retain() {
         referenceCounter.retain();
+
         return this;
     }
     
     @Override
     public ReferenceCounted retain(int increment) {
         referenceCounter.retain(increment);
+
         return this;
     }
     

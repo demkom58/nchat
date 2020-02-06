@@ -1,6 +1,8 @@
 package com.demkom58.nchat.common.network;
 
 import com.demkom58.nchat.common.network.packets.IPacket;
+import com.demkom58.nchat.server.Server;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
