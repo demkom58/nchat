@@ -1,0 +1,7 @@
+dependencies {
+    // Network
+    compile 'io.netty:netty-transport:4.1.45.Final'
+    compile 'io.netty:netty-codec:4.1.45.Final'
+    compile 'io.netty:netty-transport-native-epoll:4.1.45.Final'
+    compile 'io.netty:netty-transport-native-kqueue:4.1.45.Final'
+}

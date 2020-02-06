@@ -1,0 +1,9 @@
+plugins {
+    id 'application'
+}
+
+dependencies {
+    compile project(":common")
+}
+
+mainClassName = "com.demkom58.nchat.server.Main"
